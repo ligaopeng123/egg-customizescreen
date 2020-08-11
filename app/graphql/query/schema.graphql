@@ -1,0 +1,6 @@
+
+type Query {
+  user(id: ID!): User
+  users(id: [ID!]): [User]
+  userList: [User]
+}
