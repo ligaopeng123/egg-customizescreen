@@ -1,7 +1,8 @@
 # egg-customizescreen
 
 screen config
-
+## 项目目的
+基于egg graphgl搭建的web自定义配置项目
 ## QuickStart
 
 <!-- add docs here for user -->
