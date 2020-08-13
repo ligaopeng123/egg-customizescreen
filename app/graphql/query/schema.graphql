@@ -1,6 +1,6 @@
-
 type Query {
-  user(id: ID!): User
-  users(id: [ID!]): [User]
+  user(name: ID!): User
   userList: [User]
+  layout(key: [ID!]): Layout
+  layoutList: [Layout]
 }

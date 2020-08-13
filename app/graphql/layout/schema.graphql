@@ -1,0 +1,6 @@
+
+type Layout {
+  key: String!
+  name: String!
+  content: String!
+}

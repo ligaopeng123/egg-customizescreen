@@ -12,10 +12,10 @@ class UserConnector {
      * @param ids
      * @returns {Promise.<*[]>}
      */
-    fetch(ids) {
+    fetch(names) {
         const users = this.ctx.app.model.User.findAll({
             where: {
-                id: ids,
+                name: names,
             },
         });
         return users;
@@ -23,11 +23,11 @@ class UserConnector {
 
     /**
      * 查询多个用户信息
-     * @param ids
+     * @param names
      * @returns {Promise.<Array.<V|Error>>|Promise<Array<Error | V>>}
      */
-    fetchByIds(ids) {
-        return this.loader.loadMany(ids);
+    fetchByIds(names) {
+        return this.loader.loadMany(names);
     }
 
     /**
@@ -35,8 +35,7 @@ class UserConnector {
      * @returns {*}
      */
     fetchList() {
-        const users = this.ctx.app.model.User.findAll();
-        return users;
+        return this.ctx.app.model.User.findAll();
     }
 
     /**
@@ -44,8 +43,8 @@ class UserConnector {
      * @param id
      * @returns {Promise<V> | Promise.<V>}
      */
-    fetchById(id) {
-        return this.loader.load(id);
+    fetchByName(name) {
+        return this.loader.load(name);
     }
 }
 
