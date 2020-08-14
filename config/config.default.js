@@ -29,9 +29,11 @@ module.exports = appInfo => {
         proxyworker: {
             port: 10086,
         },
-        router: '/graphql',
+        // 是否加载开发者工具 graphiql, 默认开启。路由同 router 字段。使用浏览器打开该可见。
+        graphiql: true,
         // 路径 建议命名为graphql
-        middleware: ['graphql'],
+        router: '/graphql',
+        middleware: ['graphql'], // 添加中间件拦截请求
         // graphQL 路由前的拦截器
         onPreGraphQL: function* (ctx) {},
         // 开发工具 graphiQL 路由前的拦截器，建议用于做权限操作(如只提供开发者使用)

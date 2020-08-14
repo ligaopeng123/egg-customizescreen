@@ -1,6 +1,10 @@
+# 查询入口
 type Query {
-  user(name: ID!): User
-  userList: [User]
-  layout(key: [ID!]): Layout
-  layoutList: [Layout]
+    getUser(name: ID!): User
+    getUserList: [User]
+    # 关联查询
+    related(name: ID!): User
+    # 布局接口
+    getLayout(key: ID!): Layout
+    getLayoutList: [Layout]
 }

@@ -1,5 +1,6 @@
 type User {
   name: String!
   password: String!
+  layout(key: ID!): Layout
 }
 

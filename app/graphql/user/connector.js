@@ -1,5 +1,6 @@
 'use strict';
 const DataLoader = require('dataloader');
+const _ = require('lodash');
 
 class UserConnector {
     constructor(ctx) {
@@ -45,6 +46,38 @@ class UserConnector {
      */
     fetchByName(name) {
         return this.loader.load(name);
+    }
+
+    /**
+     * 创建用户
+     * @param user
+     * @returns {user}
+     */
+    createUser(user) {
+        return this.ctx.app.model.User.create(user);
+    }
+
+    /**
+     * 更新用户
+     * @param user
+     */
+    async updateUser(user) {
+        await this.ctx.app.model.User.update(_.pickBy(user), {where: {id: user.id}});
+        return await this.ctx.app.model.User.findOne({where: {id: user.id}});
+    }
+
+    /**
+     * 删除用户
+     */
+    async deleteUser(user) {
+        const delUser = await this.ctx.app.model.User.findOne({where: {id: user.id}});
+        if (delUser) {
+            const cacheUser = delUser.toJSON();
+            delUser.destroy();
+            return `${cacheUser.name}删除成功!`;
+        } else {
+            return `用户不存在，请检查后重试!`;
+        }
     }
 }
 
