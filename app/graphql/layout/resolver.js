@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    Query: {
+    Query:{
         // 查询单个布局配置
         getLayout(root, {key}, ctx) {
             return ctx.connector.layout.fetchByKey(key);
@@ -10,6 +10,6 @@ module.exports = {
         getLayoutList(root, {id}, ctx) {
             return ctx.connector.layout.fetchList();
         }
-    },
+    }
 };
 

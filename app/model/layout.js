@@ -4,7 +4,6 @@
  */
 module.exports = (app) => {
     const { STRING, INTEGER, DATE } = app.Sequelize;
-
     const Layout = app.model.define('layout', {
         id: { type: INTEGER, primaryKey: true, autoIncrement: true },
         name: STRING(128),
