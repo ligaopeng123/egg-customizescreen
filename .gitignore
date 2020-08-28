@@ -1,8 +1,8 @@
 logs/
-static/
 npm-debug.log
 yarn-error.log
 node_modules/
+static/
 package-lock.json
 yarn.lock
 coverage/
