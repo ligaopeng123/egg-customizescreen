@@ -7,7 +7,6 @@ module.exports = {
     Query: {
         // 查询单个用户
         getUser(root, {name}, ctx) {
-            console.log(name)
             return ctx.connector.user.fetchByName(name);
         },
         /**

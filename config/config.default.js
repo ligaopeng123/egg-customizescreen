@@ -1,7 +1,7 @@
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
-
+const path = require('path');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -44,9 +44,20 @@ module.exports = appInfo => {
             },
         }
     };
+    /**
+     * 静态资源配置
+     * @type {{}}
+     */
+    const staticConfig = {
+        static : {
+            prefix: '/upload/',
+            dir: path.join(appInfo.baseDir, 'upload'),
+        }
+    }
 
     return {
         ...config,
         ...userConfig,
+        ...staticConfig
     };
 };

@@ -10,11 +10,5 @@ module.exports = (app) => {
         created_at: DATE,
         updated_at: DATE,
     });
-    // User.create({
-    //     name: 'alice123',
-    //     password: '666666',
-    //     created_at: new Date(),
-    //     updated_at: new Date(),
-    // });
     return User;
 };

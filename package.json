@@ -7,6 +7,7 @@
     "declarations": true
   },
   "dependencies": {
+    "await-stream-ready": "^1.0.1",
     "dataloader": "^2.0.0",
     "egg": "^2.15.1",
     "egg-graphql": "^2.8.0",
