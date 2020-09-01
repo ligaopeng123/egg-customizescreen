@@ -17,9 +17,13 @@ class UserConnector {
         const users = this.ctx.app.model.User.findAll({
             where: {
                 name: names,
-            },
+            }
         });
-        return users;
+        return new Promise((resolve, reject) => {
+            users.then(res => {
+                res.length ? resolve(res) : resolve([{}]);
+            })
+        })
     }
 
     /**

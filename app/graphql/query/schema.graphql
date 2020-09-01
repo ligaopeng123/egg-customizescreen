@@ -10,4 +10,7 @@ type Query {
     getLayout(key: ID!): Layout
     # 布局 -》 获取布局接口
     getLayoutList: [Layout]
+    # upload ->> 上传
+    getUploadMd5(md5: ID!): Upload
+
 }

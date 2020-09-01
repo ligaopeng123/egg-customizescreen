@@ -3,4 +3,7 @@ type Mutation {
   createUser (name: String!, password: String!): User
   updateUser (id: ID!, name: String!, password: String!): User
   deleteUser (id: ID!): String
+  # upload
+  createUploadMd5(name: String, md5: String!, path: String!): Upload
+  deleteUploadMd5(md5: ID!): String
 }
