@@ -2,18 +2,18 @@
 
 const Service = require('egg').Service;
 const path = require('path');
-const fs = require("fs");
+const fs = require('fs');
 const crypto = require('crypto');
-const sendToWormhole = require('stream-wormhole');
-const awaitStreamReady = require('await-stream-ready').write;
 
 class UploadService extends Service {
+    /**
+     * 上传入口
+     * @returns {Promise.<*>}
+     */
     async upload() {
         const {ctx} = this;
-        // console.log(ctx.connector.upload)
         // 获取 steam
         const stream = await ctx.getFileStream();
-
         /**
          * 文件路径
          */
@@ -21,29 +21,42 @@ class UploadService extends Service {
         /**
          * 检验md5
          */
-        const data = await this.createMD5(stream, {uplaodBasePath, filename, filePath, name});
-        const status = data.status;
-        // 数据库里面的文件路径
-        const _path = data.path;
+        const {status, flieBuffer, data} = await this.checkMd5(stream, {filePath, name});
+        /**
+         * 如果找到md5 则直接将信息返回 不再重新生成资源
+         */
         if (status === 'found') {
-            return this.createResponse(stream, _path);
+            return this.createResponse(stream, data.path);
         } else {
             /**
              * 生成文件目录
              */
-            const {target} = this.createUploadPath({uplaodBasePath, filename});
-            // 写入流
-            const writeStream = fs.createWriteStream(target);
-            try {
-                // 写入文件
-                await awaitStreamReady(stream.pipe(writeStream));
-            } catch (err) {
-                // 必须将上传的文件流消费掉，要不然浏览器响应会卡死
-                await sendToWormhole(stream);
-                throw err;
-            }
-            return this.createResponse(stream, _path);
+            const {targetPath} = this.createUploadPath({uplaodBasePath, filename});
+            /**
+             * 图片信息写入
+             */
+            await this.writeFile({path: targetPath, file: flieBuffer});
+            /**
+             * 数据插入数据库
+             */
+            await this.createMD5(data);
+            return this.createResponse(stream, data.path);
         }
+    }
+
+    /**
+     * 文件写入
+     * @param path
+     * @param file
+     * @returns {Promise}
+     */
+    async writeFile({path, file}) {
+        return new Promise((resolve, reject) => {
+            fs.writeFile(path, file, function (err) {
+                if (err) reject(err);
+                resolve('successed')
+            });
+        })
     }
 
     /**
@@ -53,23 +66,31 @@ class UploadService extends Service {
      * @returns {*}
      */
     createResponse(stream, filePath) {
-        return Object.assign({}, stream.fields, {path: filePath});
+        return {path: filePath};
     }
 
     /**
-     * 生成md5
+     * 检验md5
+     * @param stream
+     * @param fileInfo
+     * @returns {Promise}
      */
-    async createMD5(stream, fileInfo) {
+    async checkMd5(stream, fileInfo) {
         const {ctx} = this;
         const {filePath, name} = fileInfo;
-        const fsHash = crypto.createHash('md5');
         /**
          * 生成md5 然后先查询根据md5查询数据库
          * 如果数据库存在 将值拿到直接返回 不在创建文件
          * 如果值不存在 则创建文件后 再把路径返回
          */
         return new Promise((resolve, reject) => {
+            const fsHash = crypto.createHash('md5');
+            /**
+             * 保存流数据 后续用于写入
+             */
+            let flieBuffer;
             stream.on('data', function (d) {
+                flieBuffer ? flieBuffer = Buffer.concat([flieBuffer, d]) : flieBuffer = d;
                 fsHash.update(d);
             });
             stream.on('end', function () {
@@ -79,22 +100,40 @@ class UploadService extends Service {
                     // 存在该资源 编辑状态为found 然后返回
                     if (res.dataValues) {
                         resolve({
-                            ...res.dataValues,
+                            data: res.dataValues,
                             status: 'found'
                         })
-                    //  不存在 则在数据库中创建该条资源 并将资源写入 标记状态为create
+                        //  不存在 则在数据库中创建该条资源 并将资源写入 标记状态为create
                     } else {
-                        ctx.connector.upload.createMd5({
-                            md5,
-                            name,
-                            path: filePath
-                        }).then(res => {
-                            resolve({
-                                ...res.dataValues,
-                                status: 'create'
-                            })
-                        });
+                        resolve({
+                            status: 'create',
+                            flieBuffer: flieBuffer,
+                            data: {
+                                md5,
+                                name,
+                                path: filePath
+                            }
+                        })
                     }
+                })
+            });
+        });
+    }
+
+    /**
+     * 生成md5
+     */
+    async createMD5(data) {
+        const {ctx} = this;
+        /**
+         * 生成md5 然后先查询根据md5查询数据库
+         * 如果数据库存在 将值拿到直接返回 不在创建文件
+         * 如果值不存在 则创建文件后 再把路径返回
+         */
+        return new Promise((resolve, reject) => {
+            ctx.connector.upload.createMd5(data).then(res => {
+                resolve({
+                    status: data
                 })
             });
         });
@@ -111,9 +150,9 @@ class UploadService extends Service {
         const filePath = path.join(this.config.baseDir, uplaodBasePath);
         if (!fs.existsSync(filePath)) fs.mkdirSync(filePath);
         // 生成写入路径
-        const target = path.join(this.config.baseDir, uplaodBasePath, filename);
+        const targetPath = path.join(this.config.baseDir, uplaodBasePath, filename);
         return {
-            target
+            targetPath
         }
     }
 

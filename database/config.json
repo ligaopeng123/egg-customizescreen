@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": "root",
+    "password": "cy-tech.net@123",
     "database": "graphql",
-    "host": "127.0.0.1",
+    "host": "192.168.1.87",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "root",
+    "password": "cy-tech.net@123",
     "database": "graphql",
-    "host": "127.0.0.1",
+    "host": "192.168.1.87",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "root",
+    "password": "cy-tech.net@123",
     "database": "graphql",
-    "host": "127.0.0.1",
+    "host": "192.168.1.87",
     "dialect": "mysql"
   }
 }

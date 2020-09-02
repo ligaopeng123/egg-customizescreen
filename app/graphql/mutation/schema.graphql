@@ -6,4 +6,6 @@ type Mutation {
   # upload
   createUploadMd5(name: String, md5: String!, path: String!): Upload
   deleteUploadMd5(md5: ID!): String
+  # Layout相关配置
+  createLayoutItem(layoutItem: LayoutInput!): [Layout]
 }

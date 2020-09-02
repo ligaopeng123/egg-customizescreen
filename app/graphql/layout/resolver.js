@@ -10,6 +10,13 @@ module.exports = {
         getLayoutList(root, {id}, ctx) {
             return ctx.connector.layout.fetchList();
         }
+    },
+    /**
+     * 数据变更
+     */
+    Mutation: {
+        createLayoutItem(root, {layoutItem}, ctx) {
+            return ctx.connector.layout.addItem(layoutItem);
+        }
     }
 };
-

@@ -12,19 +12,24 @@ class LayoutConnector {
      * @param ids
      * @returns {Promise.<*[]>}
      */
-    fetch(key) {
-        return this.ctx.app.model.Layout.findAll({
+    fetch(keys) {
+        const promises = this.ctx.app.model.Layout.findAll({
             where: {
-                key: key,
-            },
+                key: keys,
+            }
         });
+        return new Promise((resolve, reject) => {
+            promises.then(res => {
+                res.length ? resolve(res) : resolve([{}]);
+            })
+        })
     }
 
     /**
      * 查询所有
      * @returns {*}
      */
-    fetchList() {
+    async fetchList() {
         return this.ctx.app.model.Layout.findAll();
     }
 
@@ -35,6 +40,16 @@ class LayoutConnector {
      */
     fetchByKey(key) {
         return this.loader.load(key);
+    }
+
+    /**
+     *
+     * @param layoutItem
+     * @returns {layoutItem}
+     */
+    async addItem(layoutItem) {
+        await this.ctx.app.model.Layout.create(layoutItem);
+        return this.fetchList()
     }
 }
 

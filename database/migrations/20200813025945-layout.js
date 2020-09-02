@@ -11,9 +11,11 @@ module.exports = {
     const { INTEGER, DATE, STRING } = Sequelize;
       await queryInterface.createTable('layouts', {
           id: { type: INTEGER, primaryKey: true, autoIncrement: true },
-          name: STRING(128),
           key: STRING(128),
-          content: STRING(1000),
+          name: STRING(128),
+          remark: STRING(128),
+          content: STRING(10000),
+          thumbnail: STRING(1000),
           created_at: DATE,
           updated_at: DATE,
       });

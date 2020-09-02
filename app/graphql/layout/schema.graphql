@@ -1,6 +1,16 @@
-
 type Layout {
   key: String!
   name: String!
+  remark: String
   content: String!
+  thumbnail: String
 }
+
+input LayoutInput {
+  key: String!
+  name: String!
+  remark: String
+  content: String!
+  thumbnail: String
+}
+

@@ -21,10 +21,10 @@ module.exports = appInfo => {
         sequelize: {
             dialect: 'mysql',
             database: 'graphql', // 数据库名称
-            host: 'localhost',
+            host: '192.168.1.87',
             port: '3306',
             username: 'root',
-            password: 'root',
+            password: 'cy-tech.net@123',
         },
         proxyworker: {
             port: 10086,
@@ -35,9 +35,11 @@ module.exports = appInfo => {
         router: '/graphql',
         middleware: ['graphql'], // 添加中间件拦截请求
         // graphQL 路由前的拦截器
-        onPreGraphQL: function* (ctx) {},
+        onPreGraphQL: function* (ctx) {
+        },
         // 开发工具 graphiQL 路由前的拦截器，建议用于做权限操作(如只提供开发者使用)
-        onPreGraphiQL: function* (ctx) {},
+        onPreGraphiQL: function* (ctx) {
+        },
         security: {
             csrf: {
                 ignore: () => true,
@@ -49,15 +51,20 @@ module.exports = appInfo => {
      * @type {{}}
      */
     const staticConfig = {
-        static : {
+        static: {
             prefix: '/upload/',
             dir: path.join(appInfo.baseDir, 'upload'),
         }
     }
 
+
     return {
         ...config,
         ...userConfig,
-        ...staticConfig
-    };
+        ...staticConfig,
+        multipart: {
+            fileSize: '50mb',
+            mode: 'stream',
+        }
+    }
 };
