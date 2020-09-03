@@ -1,0 +1,6 @@
+type Upload {
+  name: String
+  path: String
+  md5: String
+}
+
