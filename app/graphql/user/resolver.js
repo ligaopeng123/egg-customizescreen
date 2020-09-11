@@ -5,6 +5,9 @@ module.exports = {
      * 查询模块
      */
     Query: {
+        login(root, params, ctx) {
+            return ctx.connector.user.login(params);
+        },
         // 查询单个用户
         getUser(root, {name}, ctx) {
             return ctx.connector.user.fetchByName(name);
@@ -14,9 +17,9 @@ module.exports = {
          * @returns {Promise}
          */
         related(root, {name}, ctx) {
-            return new Promise((resolve,reject)=>{
-                ctx.connector.user.fetchByName(name).then(res=> {
-                    res.dataValues.layout = ({key})=> {
+            return new Promise((resolve, reject) => {
+                ctx.connector.user.fetchByName(name).then(res => {
+                    res.dataValues.layout = ({key}) => {
                         return ctx.connector.layout.fetchByKey(key)
                     };
                     resolve(res.dataValues);
@@ -28,8 +31,8 @@ module.exports = {
         //     return ctx.connector.user.fetchByIds(id);
         // },
         // 查询所有用户
-        getUserList(root, {name}, ctx) {
-            return ctx.connector.user.fetchList();
+        async getUserList(root, params, ctx) {
+            return ctx.connector.user.fetchList(params);
         }
     },
     /**

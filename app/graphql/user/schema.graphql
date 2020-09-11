@@ -1,6 +1,40 @@
+scalar Date
+
 type User {
-  name: String!
-  password: String!
-  layout(key: ID!): Layout
+  id: Int
+  name: String
+  desc: String
+  organization: String
+  updatedAt: Date
+  createdAt: Date
 }
 
+type UserList {
+    # 用户list表
+    data:[User]
+    # 条数
+    total: String
+    # 为0是OK的
+    code: Int
+    # 返回的错误或者正确对的信息
+    message: String
+}
+
+
+type LoginUser {
+    name: String!
+}
+
+input UserInput {
+    name: String!
+    password: String!
+    desc: String
+    organization: String
+}
+
+
+input TableParams {
+    current: Int
+    name: String
+    pageSize: Int
+}

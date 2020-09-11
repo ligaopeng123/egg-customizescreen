@@ -17,7 +17,15 @@ module.exports = {
         package: 'egg-graphql',
     },
     // 数据验证
-    validate : {
+    validate: {
         package: 'egg-validate',
+    },
+    jwt: {
+        enable: true,
+        package: "egg-jwt"
+    },
+    cors: {
+        enable: true,
+        package: 'egg-cors',
     }
 };

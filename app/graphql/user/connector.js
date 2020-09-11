@@ -1,11 +1,46 @@
 'use strict';
+
 const DataLoader = require('dataloader');
 const _ = require('lodash');
+const AppUtils = require('../../AppUtils');
+const {Op} = require('sequelize');
 
 class UserConnector {
-    constructor(ctx) {
+    constructor(ctx, app) {
         this.ctx = ctx;
         this.loader = new DataLoader(this.fetch.bind(this));
+    }
+
+    /**
+     * 登录处理
+     * @param params
+     * @returns {Promise}  {
+     *                          message: '', 查询异常 返回错误信息
+     *                       }
+     *
+     *                       {
+     *                              username
+     *                              message: '' ...  查询正常 返回查询结果
+     *                         }
+     */
+    login(params) {
+        const user = this.ctx.app.model.User.findAll({
+            where: {
+                name: params.username,
+                password: params.password
+            }
+        });
+        return new Promise((resolve, reject) => {
+            user.then(res => {
+                res.length ? resolve(AppUtils.setResponse({
+                    username: res[0].dataValues.name,
+                    message: `${res[0].dataValues.name}登录成功！`
+                }, 0)) : resolve(AppUtils.setResponse({
+                    username: res[0].dataValues.name,
+                    message: '用户名或密码错误，请重新输入！'
+                }, 1));
+            })
+        })
     }
 
     /**
@@ -39,8 +74,31 @@ class UserConnector {
      * 查询所有
      * @returns {*}
      */
-    fetchList() {
+    fetchAll() {
         return this.ctx.app.model.User.findAll();
+    }
+
+    /**
+     * 查询分页表格
+     */
+    async fetchList({params}) {
+        // 分页查询
+        const list = await this.ctx.app.model.User.findAndCountAll({
+            order: [
+                ['created_at', 'DESC'],
+            ],
+            // distinct: true, // 数据条数不对
+            where: {
+                name: {
+                    [Op.like]: `%${params.name || ''}%`
+                }
+            },
+            limit: params.pageSize,
+            offset: (params.current - 1) * params.pageSize,
+        });
+        return new Promise((resolve, reject) => {
+            resolve(AppUtils.setListResponse(list));
+        })
     }
 
     /**

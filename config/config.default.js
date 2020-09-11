@@ -29,23 +29,43 @@ module.exports = appInfo => {
         proxyworker: {
             port: 10086,
         },
-        // 是否加载开发者工具 graphiql, 默认开启。路由同 router 字段。使用浏览器打开该可见。
-        graphiql: true,
+        // 是否加载开发者工具 graphql, 默认开启。路由同 router 字段。使用浏览器打开该可见。
+        graphiql: true, // onPreGraphQL要执行 graphiql需要设置为false
         // 路径 建议命名为graphql
         router: '/graphql',
-        middleware: ['graphql'], // 添加中间件拦截请求
+
+        // 配置 gzip 中间件的配置
+        gzip: {
+            threshold: 1024, // 小于 1k 的响应体不压缩
+        },
         // graphQL 路由前的拦截器
-        onPreGraphQL: function* (ctx) {
+        onPreGraphQL: function* (ctx) { // 不走
+
         },
         // 开发工具 graphiQL 路由前的拦截器，建议用于做权限操作(如只提供开发者使用)
         onPreGraphiQL: function* (ctx) {
         },
         security: {
+            /**
+             * 接口拦截配置
+             */
             csrf: {
+                // headerName: 'Authorization', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
+                // match: '/graphql',
                 ignore: () => true,
+                // 放行的接口路径
+                // throughPath: ['/admin/login', '/admin/logout', '/graphql'],
+                // secret: 'admin,login,admin,logout', // 配置的秘钥
+                // ignore: ctx => ['/admin/login', '/admin/register'],
+                // enable: false,
+                // ignoreJSON: true, // // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
+                // domainWhiteList: ['http://localhost:8080'],//允许访问接口的白名单
             },
         }
     };
+
+    // 添加中间件 用于拦截请求等处理
+    const middleware = userConfig.graphiql ? ['graphql', 'gzip'] : ['graphqlJwt', 'gzip'];
     /**
      * 静态资源配置
      * @type {{}}
@@ -62,6 +82,8 @@ module.exports = appInfo => {
         ...config,
         ...userConfig,
         ...staticConfig,
+        // 中間件配置
+        middleware: middleware,
         multipart: {
             fileSize: '50mb',
             mode: 'stream',

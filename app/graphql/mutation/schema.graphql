@@ -1,6 +1,6 @@
 type Mutation {
   # User 的增删改查
-  createUser (name: String!, password: String!): User
+  createUser (user: UserInput): UserList
   updateUser (id: ID!, name: String!, password: String!): User
   deleteUser (id: ID!): String
   # upload
