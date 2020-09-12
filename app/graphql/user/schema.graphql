@@ -1,5 +1,8 @@
+
+# 自定义时间类型
 scalar Date
 
+# 用户类型
 type User {
   id: Int
   name: String
@@ -9,6 +12,7 @@ type User {
   createdAt: Date
 }
 
+# 表格类型
 type UserList {
     # 用户list表
     data:[User]
@@ -20,21 +24,34 @@ type UserList {
     message: String
 }
 
-
+# 用户登录类型
 type LoginUser {
     name: String!
 }
 
-input UserInput {
+# User的新增输入类型
+input UserCreateInput{
     name: String!
     password: String!
     desc: String
-    organization: String
+    organization: String!
+    organization_id: String
 }
 
+# User的编辑输入类型
+input UserUpdateInput{
+    id: Int!
+    name: String!
+    password: String!
+    desc: String
+    organization: String!
+    organization_id: String
+}
 
+# 表格参数
 input TableParams {
-    current: Int
+    current: Int!
     name: String
-    pageSize: Int
+    pageSize: Int!
 }
+

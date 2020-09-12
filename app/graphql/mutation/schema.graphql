@@ -1,11 +1,17 @@
 type Mutation {
   # User 的增删改查
-  createUser (user: UserInput): UserList
-  updateUser (id: ID!, name: String!, password: String!): User
-  deleteUser (id: ID!): String
+  createUser (user: UserCreateInput!): MutationResponse
+  updateUser (user: UserUpdateInput!): MutationResponse
+  deleteUser (ID: ID!): MutationResponse
   # upload
   createUploadMd5(name: String, md5: String!, path: String!): Upload
   deleteUploadMd5(md5: ID!): String
   # Layout相关配置
   createLayoutItem(layoutItem: LayoutInput!): [Layout]
+}
+
+# 定义变更数据成功后的响应格式
+type MutationResponse implements Response {
+    code: Int
+    message: String
 }

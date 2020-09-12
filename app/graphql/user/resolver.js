@@ -31,7 +31,8 @@ module.exports = {
         //     return ctx.connector.user.fetchByIds(id);
         // },
         // 查询所有用户
-        async getUserList(root, params, ctx) {
+        async getUserList(root, {params}, ctx) {
+            console.log(params)
             return ctx.connector.user.fetchList(params);
         }
     },
@@ -43,22 +44,23 @@ module.exports = {
          * 创建用户
          * @returns {*|user}
          */
-        createUser(root, user, ctx) {
+        createUser(root, {user}, ctx) {
             return ctx.connector.user.createUser(user);
         },
         /**
          * 更新用户数据
          * @returns {*|Promise}
          */
-        updateUser(root, user, ctx) {
+        updateUser(root, {user}, ctx) {
             return ctx.connector.user.updateUser(user);
         },
         /**
          * 删除用户
          * @returns {*}
          */
-        deleteUser(root, user, ctx) {
-            return ctx.connector.user.deleteUser(user);
+        deleteUser(root, {ID}, ctx) {
+            console.log(ID)
+            return ctx.connector.user.deleteUser(ID);
         }
     },
 };

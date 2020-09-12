@@ -16,14 +16,11 @@ module.exports = {
      */
     setResponse(data, code) {
         if (code !== undefined) {
-            return {
-                data: this.addCode(data, code)
-            }
+            return this.addCode(data, code);
         }
-        return {
-            data
-        }
+        return data;
     },
+
     /**
      * 设置分页查询参数
      */

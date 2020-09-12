@@ -7,7 +7,7 @@ class LoginController extends Controller {
         const {ctx, app} = this;
         const body = await ctx.service.login.login();
         // 判断name 是否存在
-        const username = body.data.username;
+        const username = body.username;
         if (username) {
             // csrf配置
             const csrf = app.config.security.csrf;
@@ -15,11 +15,12 @@ class LoginController extends Controller {
             const token = app.jwt.sign({
                 'username': username, //需要存储的 token 数据
             }, csrf.secret);
-            const Authorization = {}
+            const Authorization = {};
             Authorization[csrf.headerName] = token;
-            ctx.set(Authorization)//设置headers
+            //设置headers
+            ctx.set(Authorization)
             // // 返回信息
-            Object.assign(body.data, {token});
+            Object.assign(body, {token});
             ctx.body = body;
         } else {
             ctx.body = body;

@@ -21,10 +21,10 @@ module.exports = appInfo => {
         sequelize: {
             dialect: 'mysql',
             database: 'graphql', // 数据库名称
-            host: '192.168.1.87',
+            host: '127.0.0.1',
             port: '3306',
             username: 'root',
-            password: 'cy-tech.net@123',
+            password: '123456'
         },
         proxyworker: {
             port: 10086,

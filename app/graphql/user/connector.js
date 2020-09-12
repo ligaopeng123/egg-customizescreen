@@ -2,8 +2,8 @@
 
 const DataLoader = require('dataloader');
 const _ = require('lodash');
-const AppUtils = require('../../AppUtils');
 const {Op} = require('sequelize');
+const AppUtils = require('../../AppUtils');
 
 class UserConnector {
     constructor(ctx, app) {
@@ -36,7 +36,6 @@ class UserConnector {
                     username: res[0].dataValues.name,
                     message: `${res[0].dataValues.name}登录成功！`
                 }, 0)) : resolve(AppUtils.setResponse({
-                    username: res[0].dataValues.name,
                     message: '用户名或密码错误，请重新输入！'
                 }, 1));
             })
@@ -81,11 +80,11 @@ class UserConnector {
     /**
      * 查询分页表格
      */
-    async fetchList({params}) {
+    async fetchList(params) {
         // 分页查询
         const list = await this.ctx.app.model.User.findAndCountAll({
             order: [
-                ['created_at', 'DESC'],
+                ['created_at', 'DESC'], // DESC ACS
             ],
             // distinct: true, // 数据条数不对
             where: {
@@ -115,8 +114,17 @@ class UserConnector {
      * @param user
      * @returns {user}
      */
-    createUser(user) {
-        return this.ctx.app.model.User.create(user);
+    async createUser(user) {
+        const us = await this.ctx.app.model.User.create(user);
+        if (us.dataValues) {
+            return AppUtils.setResponse({
+                message: `${user.name}用户新增成功！`
+            }, 0);
+        } else {
+            return AppUtils.setResponse({
+                message: `${user.name}用户新增失败！`
+            }, 1);
+        }
     }
 
     /**
@@ -124,21 +132,33 @@ class UserConnector {
      * @param user
      */
     async updateUser(user) {
-        await this.ctx.app.model.User.update(_.pickBy(user), {where: {id: user.id}});
-        return await this.ctx.app.model.User.findOne({where: {id: user.id}});
+        const us = await this.ctx.app.model.User.update(_.pickBy(user), {where: {id: user.id}});
+        if (us.length) {
+            return AppUtils.setResponse({
+                message: `${user.name}用户信息修改成功！`
+            }, 0);
+        } else {
+            return AppUtils.setResponse({
+                message: `${user.name}用户信息修改失败！`
+            }, 1);
+        }
     }
 
     /**
      * 删除用户
      */
-    async deleteUser(user) {
-        const delUser = await this.ctx.app.model.User.findOne({where: {id: user.id}});
+    async deleteUser(ID) {
+        const delUser = await this.ctx.app.model.User.findOne({where: {id: ID}});
         if (delUser) {
             const cacheUser = delUser.toJSON();
             delUser.destroy();
-            return `${cacheUser.name}删除成功!`;
+            return AppUtils.setResponse({
+                message: `${cacheUser.name}删除成功!`,
+            }, 0);
         } else {
-            return `用户不存在，请检查后重试!`;
+            return AppUtils.setResponse({
+                message: `${cacheUser.name}不存在，请检查后重试!`,
+            }, 1);
         }
     }
 }
