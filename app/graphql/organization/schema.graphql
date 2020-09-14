@@ -1,0 +1,71 @@
+
+# 用户类型
+type Organization {
+  id: Int
+  # 名称 对应title
+  name: String
+  # 组织机构唯一代码 不可修改
+  organization_code: String
+  # 父级ID 用于确定父级单位
+  parent_id: String
+  # 从上到下拼接的id 用户快速查询
+  code_link: String
+  # 菜单code 用户关联权限
+  menu_ids: String
+  # 邮政编码 补充信息
+  postal_code: String
+  # 经度
+  lon: String
+  # 纬度
+  lat: String
+}
+
+# 表格类型
+type OrganizationList {
+    # 用户list表
+    data:[Organization]
+    # 为0是OK的
+    code: Int
+    # 返回的错误或者正确对的信息
+    message: String
+}
+
+# 表格参数
+input OrganizationParams {
+    organization_code: String
+}
+
+# 组织结构的新增输入类型
+input OrganizationCreateInput{
+    # 名称
+    name: String!
+    # 父级ID
+    parent_id: String
+    # 菜单ID
+    menu_ids: String!
+    # 邮政编码
+    postal_code: String
+    # 经度
+    lon: String
+    # 纬度
+    lat: String
+}
+
+# 组织结构的编辑输入类型
+input OrganizationUpdateInput{
+    id: Int!
+    # 名称
+    name: String!
+    # 父级ID
+    parent_id: String
+    # 菜单ID
+    menu_ids: String!
+    # 邮政编码
+    postal_code: String
+    # 经度
+    lon: String
+    # 纬度
+    lat: String
+}
+
+

@@ -3,6 +3,14 @@ type Mutation {
   createUser (user: UserCreateInput!): MutationResponse
   updateUser (user: UserUpdateInput!): MutationResponse
   deleteUser (ID: ID!): MutationResponse
+  # 组织结构
+  createOrganization(organization: OrganizationCreateInput!): MutationResponse
+  updateOrganization(organization: OrganizationUpdateInput!): MutationResponse
+  deleteOrganization(ID: ID!): MutationResponse
+  # 菜单结构
+  createMenu(menu: MenuCreateInput!): MutationResponse
+  updateMenu(menu: MenuUpdateInput!): MutationResponse
+  deleteMenu(ID: ID!): MutationResponse
   # upload
   createUploadMd5(name: String, md5: String!, path: String!): Upload
   deleteUploadMd5(md5: ID!): String

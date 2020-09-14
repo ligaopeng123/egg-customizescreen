@@ -5,7 +5,7 @@ const _ = require('lodash');
 const {Op} = require('sequelize');
 const AppUtils = require('../AppUtils');
 
-class TableConnector {
+class TableConnectorBase {
     constructor(ctx, app) {
         this.ctx = ctx;
         this.init();
@@ -13,7 +13,11 @@ class TableConnector {
     }
 
     /**
-     * 默认的模型 用于增删改查 继承者需要重写改方法
+     * 默认的模型 用于增删改查
+     * 继承者需要重写改方法
+     *
+     * 默认model 为查询的模型
+     * name 为默认的模型信息的前缀
      */
     init() {
         this.model = null;
@@ -143,7 +147,7 @@ class TableConnector {
         const delRows = await this.model.findOne({where: {id: ID}});
         if (delRows) {
             const cacheRows = delRows.toJSON();
-            delRows.destroy();
+            await delRows.destroy();
             return AppUtils.setResponse({
                 message: `${cacheRows.name}删除成功!`,
             }, 0);
@@ -153,7 +157,26 @@ class TableConnector {
             }, 1);
         }
     }
+
+    async setfindAllData(res) {
+        return new Promise((resolve, reject) => {
+            if (res.length) {
+                resolve(0);
+            }
+            resolve(1);
+        })
+    }
+
+    /**
+     * 设置响应格式
+     * @param options
+     * @param code
+     * @returns {*|{data: *}}
+     */
+    setResponse(options, code) {
+        return AppUtils.setResponse(options, code);
+    }
 }
 
-module.exports = TableConnector;
+module.exports = TableConnectorBase;
 

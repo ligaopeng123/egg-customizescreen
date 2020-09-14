@@ -19,12 +19,15 @@ module.exports = appInfo => {
     const userConfig = {
         myAppName: 'egg-customizescreen',
         sequelize: {
+            // username: 'root',
+            // password: 'root',
+            // host: '127.0.0.1',
+            "username": "root",
+            "password": "cy-tech.net@123",
+            "host": "192.168.1.87",
             dialect: 'mysql',
             database: 'graphql', // 数据库名称
-            host: '127.0.0.1',
-            port: '3306',
-            username: 'root',
-            password: '123456'
+            port: '3306'
         },
         proxyworker: {
             port: 10086,

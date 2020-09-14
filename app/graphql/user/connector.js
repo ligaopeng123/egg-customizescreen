@@ -1,8 +1,9 @@
 'use strict';
 
-const TableConnector = require('../../share/table');
+const TableConnectorBase = require('../../share/table');
+const AppUtils = require('../../AppUtils');
 
-class UserConnector extends TableConnector {
+class UserConnector extends TableConnectorBase {
     constructor(ctx, app) {
         super(ctx, app);
     }
@@ -27,7 +28,7 @@ class UserConnector extends TableConnector {
      *                              message: '' ...  查询正常 返回查询结果
      *                         }
      */
-    login(params) {
+    async login(params) {
         const user = this.ctx.app.model.User.findAll({
             where: {
                 name: params.username,
@@ -36,26 +37,44 @@ class UserConnector extends TableConnector {
         });
         return new Promise((resolve, reject) => {
             user.then(res => {
-                res.length ? resolve(AppUtils.setResponse({
-                    username: res[0].dataValues.name,
-                    message: `${res[0].dataValues.name}登录成功！`
-                }, 0)) : resolve(AppUtils.setResponse({
-                    message: '用户名或密码错误，请重新输入！'
-                }, 1));
+                this.setfindAllData(res).then(code => {
+                    code === 0 ? resolve(this.setResponse({
+                        username: res[0].dataValues.name,
+                        message: `${res[0].dataValues.name}登录成功！`
+                    }, code)) : resolve(this.setResponse({
+                        message: '用户名或密码错误，请重新输入！'
+                    }, code));
+                });
+
             })
         })
     }
 
+    /**
+     * 新增用户
+     * @param user
+     * @returns {Promise.<*>}
+     */
     async createUser(user) {
         const status = await this.repeatName(user);
         if (status) return status;
         return await this.create(user);
     }
 
+    /**
+     * 修改用户
+     * @param user
+     * @returns {Promise.<*>}
+     */
     async updateUser(user) {
         return await this.update(user);
     }
 
+    /**
+     * 用户删除
+     * @param ID
+     * @returns {Promise.<*>}
+     */
     async deleteUser(ID) {
         return await this.delete(ID);
     }

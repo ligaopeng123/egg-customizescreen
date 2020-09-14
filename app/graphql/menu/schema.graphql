@@ -1,0 +1,58 @@
+
+# 用户类型
+type Menu {
+  id: Int
+  # 名称 对应title
+  name: String
+  # 菜单唯一代码 不可修改 动态生成
+  menu_code: String
+  # 父级ID 用于确定父级单位
+  parent_id: String
+  # 从上到下拼接的id 用于快速查询
+  code_link: String
+  # 路由地址
+  path: String
+  # 经度
+  auth: Boolean
+}
+
+# 表格类型
+type MenuList {
+    # 菜单list表
+    data:[Menu]
+    # 为0是OK的
+    code: Int
+    # 返回的错误或者正确对的信息
+    message: String
+}
+
+# 表格参数
+input MenuParams {
+    menu_code: String
+}
+
+# 组织结构的新增输入类型
+input MenuCreateInput{
+    # 名称
+    name: String!
+    # 父级ID
+    parent_id: String
+    # 路由地址
+    path: String
+    # 经度
+    auth: Boolean
+}
+
+# 组织结构的编辑输入类型
+input MenuUpdateInput{
+    id: Int!
+    # 名称
+    # 名称
+    name: String!
+    # 父级ID
+    parent_id: String
+    # 路由地址
+    path: String
+    # 经度
+    auth: Boolean
+}

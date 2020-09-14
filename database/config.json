@@ -1,9 +1,16 @@
 {
   "development": {
     "username": "root",
-    "password": "123456",
+    "password": "root",
     "database": "graphql",
     "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "cloud": {
+    "username": "root",
+    "password": "cy-tech.net@123",
+    "database": "graphql",
+    "host": "192.168.1.87",
     "dialect": "mysql"
   },
   "test": {
