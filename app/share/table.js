@@ -98,13 +98,22 @@ class TableConnectorBase {
      */
     async create(rows) {
         const newRow = await this.model.create(rows);
-        if (newRow.dataValues) {
+        return await this.ceateResponse(newRow);
+    }
+
+    /**
+     * 新建成功后的响应
+     * @param rows
+     * @returns {Promise.<void>}
+     */
+    async ceateResponse(rows) {
+        if (rows.dataValues) {
             return AppUtils.setResponse({
-                message: `${rows.name}${this.name}新增成功！`
+                message: `${rows.dataValues.name}${this.name}新增成功！`
             }, 0);
         } else {
             return AppUtils.setResponse({
-                message: `${rows.name}${this.name}新增失败！`
+                message: `${rows.dataValues.name}${this.name}新增失败！`
             }, 1);
         }
     }

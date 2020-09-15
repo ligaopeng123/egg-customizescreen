@@ -12,23 +12,30 @@ class MenuConnector extends TableConnectorBase {
      * 初始化模型
      */
     init() {
-        this.model = this.ctx.app.model.User;
-        this.name = `用户`;
+        this.model = this.ctx.app.model.Menu;
+        this.name = `菜单`;
     }
 
     /**
-     * 新增用户
+     * 新增菜单
      * @param user
      * @returns {Promise.<*>}
      */
-    async createMenu(user) {
-        const status = await this.repeatName(user);
-        if (status) return status;
-        return await this.create(user);
+    async createMenu(menu) {
+        const menu_code = AppUtils.uuid();
+        const newMenu = Object.assign({menu_code}, menu);
+        const cMenu = await this.model.create(newMenu);
+        if (cMenu.dataValues) {
+            return {
+                code: 0,
+                message: `${cMenu.dataValues.name}新增成功！`,
+                ...cMenu.dataValues
+            };
+        }
     }
 
     /**
-     * 修改用户
+     * 修改菜单
      * @param user
      * @returns {Promise.<*>}
      */
@@ -37,12 +44,26 @@ class MenuConnector extends TableConnectorBase {
     }
 
     /**
-     * 用户删除
+     * 菜单删除
      * @param ID
      * @returns {Promise.<*>}
      */
     async deleteMenu(ID) {
         return await this.delete(ID);
+    }
+
+    /**
+     * 查询所有菜单项
+     * @param params
+     * @returns {Promise.<{code: number, message: string, data: *}>}
+     */
+    async fetchList(params) {
+        const menu = await this.model.findAll({})
+        return {
+            code: 0,
+            message: '查询成功!',
+            data: menu
+        }
     }
 }
 

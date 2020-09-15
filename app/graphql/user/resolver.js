@@ -32,7 +32,6 @@ module.exports = {
         // },
         // 查询所有用户
         async getUserList(root, {params}, ctx) {
-            console.log(params)
             return ctx.connector.user.fetchList(params);
         }
     },
@@ -59,7 +58,6 @@ module.exports = {
          * @returns {*}
          */
         deleteUser(root, {ID}, ctx) {
-            console.log(ID)
             return ctx.connector.user.deleteUser(ID);
         }
     },

@@ -1,21 +1,21 @@
 type Mutation {
-  # User 的增删改查
-  createUser (user: UserCreateInput!): MutationResponse
-  updateUser (user: UserUpdateInput!): MutationResponse
-  deleteUser (ID: ID!): MutationResponse
-  # 组织结构
-  createOrganization(organization: OrganizationCreateInput!): MutationResponse
-  updateOrganization(organization: OrganizationUpdateInput!): MutationResponse
-  deleteOrganization(ID: ID!): MutationResponse
-  # 菜单结构
-  createMenu(menu: MenuCreateInput!): MutationResponse
-  updateMenu(menu: MenuUpdateInput!): MutationResponse
-  deleteMenu(ID: ID!): MutationResponse
-  # upload
-  createUploadMd5(name: String, md5: String!, path: String!): Upload
-  deleteUploadMd5(md5: ID!): String
-  # Layout相关配置
-  createLayoutItem(layoutItem: LayoutInput!): [Layout]
+    # User 的增删改查
+    createUser (user: UserCreateInput!): MutationResponse
+    updateUser (user: UserUpdateInput!): MutationResponse
+    deleteUser (ID: ID!): MutationResponse
+    # 菜单结构
+    createMenu(menu: MenuCreateInput!): MenuResponse
+    updateMenu(menu: MenuUpdateInput!): MenuResponse
+    deleteMenu(ID: ID!): MutationResponse
+    # 组织结构
+    createOrganization(organization: OrganizationCreateInput!): MutationResponse
+    updateOrganization(organization: OrganizationUpdateInput!): MutationResponse
+    deleteOrganization(ID: ID!): MutationResponse
+    # upload
+    createUploadMd5(name: String, md5: String!, path: String!): Upload
+    deleteUploadMd5(md5: ID!): String
+    # Layout相关配置
+    createLayoutItem(layoutItem: LayoutInput!): [Layout]
 }
 
 # 定义变更数据成功后的响应格式

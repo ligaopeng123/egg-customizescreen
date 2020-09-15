@@ -24,22 +24,22 @@ module.exports = {
          * 创建菜单
          * @returns {*|user}
          */
-        createMenu(root, {user}, ctx) {
-            return ctx.connector.user.createUser(user);
+        createMenu(root, {menu}, ctx) {
+            return ctx.connector.menu.createMenu(menu);
         },
         /**
          * 更新菜单数据
          * @returns {*|Promise}
          */
-        updateMenu(root, {user}, ctx) {
-            return ctx.connector.user.updateUser(user);
+        updateMenu(root, {menu}, ctx) {
+            return ctx.connector.menu.updateMenu(menu);
         },
         /**
          * 删除菜单
          * @returns {*}
          */
         deleteMenu(root, {ID}, ctx) {
-            return ctx.connector.user.deleteUser(ID);
+            return ctx.connector.menu.deleteMenu(ID);
         }
     },
 };

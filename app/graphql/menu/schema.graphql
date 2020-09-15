@@ -1,19 +1,39 @@
 
-# 用户类型
+# 菜单类型
 type Menu {
-  id: Int
-  # 名称 对应title
-  name: String
-  # 菜单唯一代码 不可修改 动态生成
-  menu_code: String
-  # 父级ID 用于确定父级单位
-  parent_id: String
-  # 从上到下拼接的id 用于快速查询
-  code_link: String
-  # 路由地址
-  path: String
-  # 经度
-  auth: Boolean
+    id: Int
+    # 名称 对应title
+    name: String
+    # 菜单唯一代码 不可修改 动态生成
+    menu_code: String
+    # 父级ID 用于确定父级单位
+    parent_id: String
+    # 从上到下拼接的id 用于快速查询
+    code_link: String
+    # 路由地址
+    path: String
+    # 经度
+    auth: Boolean
+}
+
+type MenuResponse {
+    id: Int
+    # 名称 对应title
+    name: String
+    # 菜单唯一代码 不可修改 动态生成
+    menu_code: String
+    # 父级ID 用于确定父级单位
+    parent_id: String
+    # 从上到下拼接的id 用于快速查询
+    code_link: String
+    # 路由地址
+    path: String
+    # 经度
+    auth: Boolean
+    # 状态
+    code: Int
+    # 信息
+    message: String
 }
 
 # 表格类型
@@ -38,7 +58,7 @@ input MenuCreateInput{
     # 父级ID
     parent_id: String
     # 路由地址
-    path: String
+    path: String!
     # 经度
     auth: Boolean
 }
