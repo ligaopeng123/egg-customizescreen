@@ -15,7 +15,7 @@ module.exports = {
             // 组织机构唯一代码 不可修改
             organization_code: STRING(16),
             // 父级ID 用于确定父级单位
-            parent_id: INTEGER,
+            parent_id: STRING(64),
             // 从上到下拼接的id 用户快速查询
             code_link: STRING(1280),
             // 菜单code 用户关联权限

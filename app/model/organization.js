@@ -5,14 +5,14 @@
  * @returns {void|*|Model<any, any, TAttributes>}
  */
 module.exports = (app) => {
-    const {STRING, INTEGER, DATE} = app.Sequelize;
+    const {STRING, INTEGER, UUID, DATE} = app.Sequelize;
     const User = app.model.define('organization', {
         id: {type: INTEGER, primaryKey: true, autoIncrement: true},
         name: STRING(16),
         // 组织机构唯一代码 不可修改
         organization_code: STRING(16),
         // 父级ID 用于确定父级单位
-        parent_id: STRING(64),
+        menu_code: STRING(64),
         // 从上到下拼接的id 用户快速查询
         code_link: STRING(1280),
         // 菜单code 用户关联权限

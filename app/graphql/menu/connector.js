@@ -24,6 +24,7 @@ class MenuConnector extends TableConnectorBase {
     async createMenu(menu) {
         const menu_code = AppUtils.uuid();
         const newMenu = Object.assign({menu_code}, menu);
+        console.log(newMenu)
         const cMenu = await this.model.create(newMenu);
         if (cMenu.dataValues) {
             return {
