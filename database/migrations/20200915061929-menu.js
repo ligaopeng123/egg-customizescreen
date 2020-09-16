@@ -15,7 +15,7 @@ module.exports = {
             // 路由地址
             path: TEXT,
             // 菜单唯一代码 不可修改 动态生成
-            type: STRING(64),
+            menu_code: STRING(64),
             // 父级ID 用于确定父级单位
             parent_id: STRING(64),
             // 从上到下拼接的id 用户快速查询
