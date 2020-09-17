@@ -39,8 +39,8 @@ class MenuConnector extends TableConnectorBase {
      * @param user
      * @returns {Promise.<*>}
      */
-    async updateMenu(user) {
-        return await this.update(user);
+    async updateMenu(menu) {
+        return await this.update(menu);
     }
 
     /**
