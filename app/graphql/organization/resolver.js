@@ -24,22 +24,22 @@ module.exports = {
          * 创建用户
          * @returns {*|user}
          */
-        createOrganization(root, {user}, ctx) {
-            return ctx.connector.user.createUser(user);
+        createOrganization(root, {organization}, ctx) {
+            return ctx.connector.organization.createUser(organization);
         },
         /**
          * 更新用户数据
          * @returns {*|Promise}
          */
-        updateOrganization(root, {user}, ctx) {
-            return ctx.connector.user.updateUser(user);
+        updateOrganization(root, {organization}, ctx) {
+            return ctx.connector.organization.updateUser(organization);
         },
         /**
          * 删除用户
          * @returns {*}
          */
         deleteOrganization(root, {ID}, ctx) {
-            return ctx.connector.user.deleteUser(ID);
+            return ctx.connector.organization.deleteUser(ID);
         }
     },
 };

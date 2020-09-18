@@ -58,7 +58,7 @@ class MenuConnector extends TableConnectorBase {
      * @returns {Promise.<{code: number, message: string, data: *}>}
      */
     async fetchList(params) {
-        const menu = await this.model.findAll({})
+        const menu = await this.model.findAll({});
         return {
             code: 0,
             message: '查询成功!',

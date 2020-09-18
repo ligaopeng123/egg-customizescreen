@@ -12,19 +12,25 @@ class OrganizationConnector extends TableConnectorBase {
      * 初始化模型
      */
     init() {
-        this.model = this.ctx.app.model.User;
-        this.name = `用户`;
+        this.model = this.ctx.app.model.Organization;
+        this.name = `组织机构`;
     }
 
+    async fetchList(params) {
+        const organization = await this.model.findAll({});
+        return {
+            code: 0,
+            message: '查询成功!',
+            data: organization
+        }
+    }
     /**
      * 新增用户
      * @param user
      * @returns {Promise.<*>}
      */
-    async createOrganization(user) {
-        const status = await this.repeatName(user);
-        if (status) return status;
-        return await this.create(user);
+    async createOrganization(organization) {
+        return await this.create(organization);
     }
 
     /**
@@ -32,8 +38,8 @@ class OrganizationConnector extends TableConnectorBase {
      * @param user
      * @returns {Promise.<*>}
      */
-    async updateOrganization(user) {
-        return await this.update(user);
+    async updateOrganization(organization) {
+        return await this.update(organization);
     }
 
     /**
