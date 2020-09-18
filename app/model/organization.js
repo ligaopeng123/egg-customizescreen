@@ -10,7 +10,7 @@ module.exports = (app) => {
         id: {type: INTEGER, primaryKey: true, autoIncrement: true},
         name: STRING(16),
         // 组织机构唯一代码 不可修改
-        organization_code: TEXSTRING(64),
+        organization_code: STRING(64),
         // 父级ID 用于确定父级单位
         parent_id: STRING(64),
         // 从上到下拼接的id 用户快速查询
