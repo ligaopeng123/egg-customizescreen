@@ -25,21 +25,21 @@ module.exports = {
          * @returns {*|user}
          */
         createOrganization(root, {organization}, ctx) {
-            return ctx.connector.organization.createUser(organization);
+            return ctx.connector.organization.createOrganization(organization);
         },
         /**
          * 更新用户数据
          * @returns {*|Promise}
          */
         updateOrganization(root, {organization}, ctx) {
-            return ctx.connector.organization.updateUser(organization);
+            return ctx.connector.organization.updateOrganization(organization);
         },
         /**
          * 删除用户
          * @returns {*}
          */
         deleteOrganization(root, {ID}, ctx) {
-            return ctx.connector.organization.deleteUser(ID);
+            return ctx.connector.organization.deleteOrganization(ID);
         }
     },
 };

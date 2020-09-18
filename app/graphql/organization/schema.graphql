@@ -11,7 +11,7 @@ type Organization {
   # 从上到下拼接的id 用户快速查询
   code_link: String
   # 菜单code 用户关联权限
-  menu_ids: String
+  menu_ids: [String]
   # 邮政编码 补充信息
   postal_code: String
   # 经度
@@ -42,7 +42,7 @@ input OrganizationCreateInput{
     # 父级ID
     parent_id: String
     # 菜单ID
-    menu_ids: String!
+    menu_ids: [String]!
     # 邮政编码
     postal_code: String
     # 经度
@@ -55,11 +55,11 @@ input OrganizationCreateInput{
 input OrganizationUpdateInput{
     id: Int!
     # 名称
-    name: String!
+    name: String
     # 父级ID
     parent_id: String
     # 菜单ID
-    menu_ids: String!
+    menu_ids: [String]
     # 邮政编码
     postal_code: String
     # 经度
