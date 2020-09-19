@@ -1,3 +1,9 @@
+type Menu_ids {
+    # 表格数据 父级关系 未全选数据
+    halfKey: [String]
+    # 树上数据 只包含子节点
+    treeKey: [String]
+}
 
 # 用户类型
 type Organization {
@@ -11,7 +17,7 @@ type Organization {
   # 从上到下拼接的id 用户快速查询
   code_link: String
   # 菜单code 用户关联权限
-  menu_ids: [String]
+  menu_ids: Menu_ids
   # 邮政编码 补充信息
   postal_code: String
   # 经度
@@ -35,6 +41,13 @@ input OrganizationParams {
     organization_code: String
 }
 
+input Menu_ids_Input{
+    # 表格数据 父级关系 未全选数据
+    halfKey: [String]
+    # 树上数据 只包含子节点
+    treeKey: [String]
+}
+
 # 组织结构的新增输入类型
 input OrganizationCreateInput{
     # 名称
@@ -42,7 +55,7 @@ input OrganizationCreateInput{
     # 父级ID
     parent_id: String
     # 菜单ID
-    menu_ids: [String]!
+    menu_ids: Menu_ids_Input!
     # 邮政编码
     postal_code: String
     # 经度
@@ -59,7 +72,7 @@ input OrganizationUpdateInput{
     # 父级ID
     parent_id: String
     # 菜单ID
-    menu_ids: [String]
+    menu_ids: Menu_ids_Input
     # 邮政编码
     postal_code: String
     # 经度

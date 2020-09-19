@@ -23,7 +23,7 @@ class OrganizationConnector extends TableConnectorBase {
         const data = organizations.map(item => {
             return {
                 ...item.dataValues,
-                menu_ids: item.dataValues.menu_ids.split(this.separationSymbol)
+                menu_ids: JSON.parse(item.dataValues.menu_ids)
                 // item.dataValues.menu_ids: item.menu_ids // 前端下发的是数组 此处返回的也是数组
             }
         });
@@ -43,7 +43,7 @@ class OrganizationConnector extends TableConnectorBase {
     async createOrganization(organization) {
         // return await this.create(organization);
         const organization_code = AppUtils.uuid();
-        const menu_ids = organization.menu_ids.join(this.separationSymbol); // 前端下发的是数组 此处做下转换
+        const menu_ids = JSON.stringify(organization.menu_ids); // 前端下发的是数组 此处做下转换
         const newOrgan = Object.assign({organization_code}, organization, {menu_ids});
         const cOrgan = await this.model.create(newOrgan);
         if (cOrgan.dataValues) {
@@ -65,7 +65,7 @@ class OrganizationConnector extends TableConnectorBase {
      * @returns {Promise.<*>}
      */
     async updateOrganization(organization) {
-        const menu_ids = organization.menu_ids.join(this.separationSymbol);
+        const menu_ids = JSON.stringify(organization.menu_ids);
         const params = {...organization, menu_ids: menu_ids};
         return await this.update(params);
     }
