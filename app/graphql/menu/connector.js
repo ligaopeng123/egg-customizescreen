@@ -49,6 +49,10 @@ class MenuConnector extends TableConnectorBase {
      * @returns {Promise.<*>}
      */
     async deleteMenu(ID) {
+        const delRows = await this.model.findOne({where: {id: ID}});
+        if (delRows) {
+            const values = await this.ctx.connector.organization.updateMenuIds(delRows.toJSON().menu_code);
+        }
         return await this.delete(ID);
     }
 
