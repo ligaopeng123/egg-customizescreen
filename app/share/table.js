@@ -167,12 +167,20 @@ class TableConnectorBase {
         }
     }
 
-    async setfindAllData(res) {
+    /**
+     * 判断查询是否成功
+     * @param res
+     * @returns {Promise}
+     */
+    async setfindOneData(res) {
         return new Promise((resolve, reject) => {
             if (res.length) {
-                resolve(0);
+                resolve({
+                    code: 0,
+                    data: res[0].dataValues
+                });
             }
-            resolve(1);
+            resolve(1, res);
         })
     }
 

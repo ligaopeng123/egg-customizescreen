@@ -14,7 +14,7 @@ class LoginController extends Controller {
             // // 生成token
             const token = app.jwt.sign({
                 'username': username, //需要存储的 token 数据
-            }, csrf.secret);
+            });
             const Authorization = {};
             Authorization[csrf.headerName] = token;
             //设置headers

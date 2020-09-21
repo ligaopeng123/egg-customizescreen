@@ -53,13 +53,12 @@ module.exports = appInfo => {
              * 接口拦截配置
              */
             csrf: {
-                // headerName: 'Authorization', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
-                // match: '/graphql',
-                ignore: () => true,
+                headerName: 'authorization', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
+                // match: '/graphql', // 只想开启针对某一路径
                 // 放行的接口路径
-                // throughPath: ['/admin/login', '/admin/logout', '/graphql'],
-                // secret: 'admin,login,admin,logout', // 配置的秘钥
-                // ignore: ctx => ['/admin/login', '/admin/register'],
+                throughPath: ['/admin/login', '/admin/logout'],
+                secret: 'admin,login', // 配置的秘钥
+                ignore: ctx => ['/admin/login', '/admin/register'],
                 // enable: false,
                 // ignoreJSON: true, // // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
                 // domainWhiteList: ['http://localhost:8080'],//允许访问接口的白名单

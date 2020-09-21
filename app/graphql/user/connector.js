@@ -29,7 +29,7 @@ class UserConnector extends TableConnectorBase {
      *                         }
      */
     async login(params) {
-        const user = this.ctx.app.model.User.findAll({
+        const user = this.model.findAll({
             where: {
                 name: params.username,
                 password: params.password
@@ -37,17 +37,37 @@ class UserConnector extends TableConnectorBase {
         });
         return new Promise((resolve, reject) => {
             user.then(res => {
-                this.setfindAllData(res).then(code => {
-                    code === 0 ? resolve(this.setResponse({
-                        username: res[0].dataValues.name,
-                        message: `${res[0].dataValues.name}登录成功！`
-                    }, code)) : resolve(this.setResponse({
-                        message: '用户名或密码错误，请重新输入！'
-                    }, code));
-                });
+                this.setfindOneData(res).then((res) => {
+                    const {code, data} = res;
+                    if (code === 0) {
+                        // 获取菜单
+                        resolve(this.setResponse({
+                            username: data.name,
+                            message: `${data.name}登录成功！`
+                        }, code))
 
+                    } else {
+                        resolve(this.setResponse({
+                            message: '用户名或密码错误，请重新输入！'
+                        }, code))
+                    }
+                });
             })
         })
+    }
+
+    /**
+     * 根据用户信息 获取到菜单信息
+     */
+    async getMenusByUser(username) {
+        const user = await this.model.findOne({
+            where: {
+                name: username,
+            }
+        });
+        const {organization_id} = user.toJSON();
+        const menus = await this.ctx.connector.organization.getMenusByRrganizationId(organization_id);
+        return menus;
     }
 
     /**

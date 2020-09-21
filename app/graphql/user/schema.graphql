@@ -8,6 +8,7 @@ type User {
   name: String
   desc: String
   organization: String
+  organization_id: String
   updatedAt: Date
   createdAt: Date
 }
@@ -35,17 +36,17 @@ input UserCreateInput{
     password: String!
     desc: String
     organization: String!
-    organization_id: String
+    organization_id: String!
 }
 
 # User的编辑输入类型
 input UserUpdateInput{
     id: Int!
     name: String!
-    password: String!
+    password: String
     desc: String
     organization: String!
-    organization_id: String
+    organization_id: String!
 }
 
 # 表格参数

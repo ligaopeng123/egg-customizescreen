@@ -7,7 +7,7 @@ module.exports = (app) => {
         name: STRING(16),
         password: STRING(16),
         desc: STRING(128),
-        organization_id: INTEGER,
+        organization_id: STRING(64),
         organization: STRING(128),
         created_at: DATE,
         updated_at: DATE,

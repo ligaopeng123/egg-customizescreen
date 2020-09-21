@@ -18,6 +18,11 @@ class OrganizationConnector extends TableConnectorBase {
         this.name = `组织机构`;
     }
 
+    /**
+     * 查所有组织关系
+     * @param params
+     * @returns {Promise.<{code: number, message: string, data}>}
+     */
     async fetchList(params) {
         const organizations = await this.model.findAll({});
         // 返回数据处理
@@ -34,6 +39,31 @@ class OrganizationConnector extends TableConnectorBase {
             message: '查询成功!',
             data: data
         }
+    }
+
+    /**
+     * 根据组织id 查询到对应的菜单项
+     * @param id
+     * @returns {Promise.<void>}
+     */
+    async getMenusByRrganizationId(ID) {
+        // 查到组织
+        const organization = await this.model.findOne({where: {organization_code: ID}});
+        // 根据组织 找到menu_ids
+        const menu_ids = JSON.parse(organization.toJSON().menu_ids);
+        // 获取完整的树结构
+        const {halfKey, treeKey} = menu_ids;
+        const menus = halfKey.concat(treeKey);
+        // 根据树结构信息 将树信息表获取到
+        return new Promise((resolve, reject) => {
+            const menusPromise = [];
+            menus.forEach((menu_id) => {
+                menusPromise.push(this.ctx.connector.menu.getMeunByMenuId(menu_id));
+            });
+            Promise.all(menusPromise).then((values) => {
+                resolve(values);
+            });
+        });
     }
 
     /**

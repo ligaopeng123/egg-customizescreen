@@ -57,6 +57,16 @@ class MenuConnector extends TableConnectorBase {
     }
 
     /**
+     * 根据menu_id获取菜单项
+     * @param ID menu_id
+     * @returns {Promise.<void>}
+     */
+    async getMeunByMenuId(ID) {
+        const menu = await this.model.findOne({where: {menu_code: ID}});
+        return menu.toJSON();
+    }
+
+    /**
      * 查询所有菜单项
      * @param params
      * @returns {Promise.<{code: number, message: string, data: *}>}
