@@ -27,9 +27,10 @@ class OrganizationConnector extends TableConnectorBase {
         const organizations = await this.model.findAll({});
         // 返回数据处理
         const data = organizations.map(item => {
+            const menu_ids = item.dataValues.menu_ids;
             return {
                 ...item.dataValues,
-                menu_ids: JSON.parse(item.dataValues.menu_ids)
+                menu_ids: menu_ids ? JSON.parse(menu_ids) : []
                 // item.dataValues.menu_ids: item.menu_ids // 前端下发的是数组 此处返回的也是数组
             }
         });
@@ -49,20 +50,18 @@ class OrganizationConnector extends TableConnectorBase {
     async getMenusByRrganizationId(ID) {
         // 查到组织
         const organization = await this.model.findOne({where: {organization_code: ID}});
+
         // 根据组织 找到menu_ids
-        const menu_ids = JSON.parse(organization.toJSON().menu_ids);
-        // 获取完整的树结构
-        const {halfKey, treeKey} = menu_ids;
-        const menus = halfKey.concat(treeKey);
+        const menu_ids = organization.toJSON().menu_ids;
         // 根据树结构信息 将树信息表获取到
         return new Promise((resolve, reject) => {
-            const menusPromise = [];
-            menus.forEach((menu_id) => {
-                menusPromise.push(this.ctx.connector.menu.getMeunByMenuId(menu_id));
-            });
-            Promise.all(menusPromise).then((values) => {
-                resolve(values);
-            });
+            if (menu_ids) {
+                this.ctx.connector.menu.getMeunByMenuIds(JSON.parse(menu_ids)).then(values => {
+                    resolve(values.filter(Boolean));
+                })
+            } else {
+                resolve([]);
+            }
         });
     }
 
@@ -119,7 +118,7 @@ class OrganizationConnector extends TableConnectorBase {
             // Promise.all
             organizations.forEach((item) => {
                 dataPromiseArr.push(this.updateMenuId(item, code));
-            })
+            });
             Promise.all(dataPromiseArr).then((values) => {
                 resolve(values);
             });
@@ -135,14 +134,10 @@ class OrganizationConnector extends TableConnectorBase {
     async updateMenuId(rows, code) {
         const menu_ids = JSON.parse(rows.dataValues.menu_ids);
         const {halfKey, treeKey} = menu_ids;
-        halfKey.splice(this.findIndex(halfKey, code), 1);
         treeKey.splice(this.findIndex(halfKey, code), 1);
         const obj = {
             id: rows.dataValues.id,
-            menu_ids: {
-                halfKey: halfKey,
-                treeKey: treeKey
-            }
+            menu_ids: treeKey
         };
         return await this.updateOrganization(obj);
     }

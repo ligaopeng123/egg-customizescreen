@@ -61,9 +61,49 @@ class MenuConnector extends TableConnectorBase {
      * @param ID menu_id
      * @returns {Promise.<void>}
      */
-    async getMeunByMenuId(ID) {
-        const menu = await this.model.findOne({where: {menu_code: ID}});
-        return menu.toJSON();
+    async getMeunByMenuIds(ids) {
+        // 一次查完 进行数据层面的组装 不再频繁操作数据库
+        const list = await this.fetchList();
+        const menus = list.data;
+        const stats = {};
+        const menusArr = [];
+        for (let i = 0; i < ids.length; i++) {
+            for (let j = 0; j < menus.length; j++) {
+                const menu = menus[j].dataValues;
+                if (!stats[ids[i]] && menu.menu_code === ids[i]) {
+                    stats[ids[i]] = true;
+                    menusArr.push(menu);
+                    const halfItems = this.getMeunByParentsByID(menus, menu, []);
+                    halfItems.forEach(item => {
+                        if (!stats[item.menu_code]) menusArr.push(item);
+                        stats[item.menu_code] = true;
+                    });
+                    break;
+                }
+            }
+        }
+        return menusArr;
+    }
+
+    /**
+     * 关联数据获取
+     * @param menus
+     * @param menu
+     * @param halfItems
+     * @returns {*}
+     */
+    getMeunByParentsByID(menus, menu, halfItems = []) {
+        const parent_id = menu.parent_id;
+        if (parent_id) {
+            for (let i = 0; i < menus.length; i++) {
+                const menu = menus[i].dataValues;
+                if (parent_id === menu.menu_code) {
+                    halfItems.push(menu);
+                    return this.getMeunByParentsByID(menus, menu, halfItems);
+                }
+            }
+        }
+        return halfItems;
     }
 
     /**
