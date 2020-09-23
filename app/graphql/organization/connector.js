@@ -133,11 +133,10 @@ class OrganizationConnector extends TableConnectorBase {
      */
     async updateMenuId(rows, code) {
         const menu_ids = JSON.parse(rows.dataValues.menu_ids);
-        const {halfKey, treeKey} = menu_ids;
-        treeKey.splice(this.findIndex(halfKey, code), 1);
+        menu_ids.splice(this.findIndex(menu_ids, code), 1);
         const obj = {
             id: rows.dataValues.id,
-            menu_ids: treeKey
+            menu_ids: menu_ids
         };
         return await this.updateOrganization(obj);
     }
