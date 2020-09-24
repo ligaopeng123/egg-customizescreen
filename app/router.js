@@ -11,4 +11,6 @@ module.exports = app => {
     router.post('/admin/login', controller.login.index);
     // 菜单信息
     router.post('/admin/menus', controller.menu.index);
+    // 获取oem配置
+    router.post('/admin/oem', controller.oem.index);
 };

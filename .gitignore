@@ -14,3 +14,6 @@ run/
 *.un~
 typings/
 .nyc_output/
+
+graphql.config.json
+graphql.schema.json

@@ -123,11 +123,11 @@ class TableConnectorBase {
      * @param user
      * @returns {*|{data: *}}
      */
-    async repeatName(user) {
-        const oldRows = await this.model.findOne({where: {name: user.name}});
-        if (oldRows && oldRows.toJSON().name === user.name) {
+    async repeatName(rows) {
+        const oldRows = await this.model.findOne({where: {name: rows.name}});
+        if (oldRows && oldRows.toJSON().name === rows.name) {
             return AppUtils.setResponse({
-                message: `${user.name}${this.name}已存在，请重新输入！`
+                message: `${rows.name}${this.name}已存在，请重新输入！`
             }, 1);
         }
     }

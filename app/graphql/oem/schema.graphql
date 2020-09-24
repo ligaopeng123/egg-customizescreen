@@ -1,0 +1,62 @@
+# oem字段接口
+interface OemInterface {
+	# 名称
+	name: String!
+	# 获取的key值 必须是英文字符串
+	key: String!
+	# 对应的value值
+	value: String!
+	# 数据类型 目前有图片 字符串 和对象数组类型
+	value_type: String!
+}
+
+# 单个类型
+type Oem implements OemInterface {
+	id: Int!
+	# 名称
+	name: String!
+	# 获取的key值 必须是英文字符串
+	key: String!
+	# 对应的value值
+	value: String!
+	# 数据类型 目前有图片 字符串 和对象数组类型
+	value_type: String!
+}
+
+# 表格类型
+type OemList {
+	# 用户list表
+	data:[Oem]
+	# 条数
+	total: String
+	# 为0是OK的
+	code: Int
+	# 返回的错误或者正确对的信息
+	message: String
+}
+
+# 创建OEM配置
+input OemCreateInput {
+	# 名称
+	name: String!
+	# 获取的key值 必须是英文字符串
+	key: String!
+	# 对应的value值
+	value: String!
+	# 数据类型 目前有图片 字符串 和对象数组类型
+	value_type: String!
+}
+
+# 更新OEM配置
+input OemUpdateInput {
+	# id
+	id: Int!
+	# 名称
+	name: String
+	# 获取的key值 必须是英文字符串
+	key: String
+	# 对应的value值
+	value: String
+	# 数据类型 目前有图片 字符串 和对象数组类型
+	value_type: String
+}

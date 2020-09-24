@@ -12,6 +12,8 @@ type Query {
     getOrganizationList(params: OrganizationParams!): OrganizationList
     # 菜单表
     getMenuList(params: MenuParams!): MenuList
+    # oem配置
+    getOemList: OemList
     # 布局 -》 布局接口 获取布局信息
     getLayout(key: ID!): Layout
     # 布局 -》 获取布局接口
