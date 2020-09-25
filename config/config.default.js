@@ -2,6 +2,7 @@
 
 'use strict';
 const path = require('path');
+const graphqlJwt = require('../app/middleware/graphqlJwt');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -33,21 +34,24 @@ module.exports = appInfo => {
             port: 10086,
         },
         // 是否加载开发者工具 graphql, 默认开启。路由同 router 字段。使用浏览器打开该可见。
-        graphiql: true, // onPreGraphQL要执行 graphiql需要设置为false
-        // 路径 建议命名为graphql
-        router: '/graphql',
+        graphiql: false, // onPreGraphQL要执行 graphiql需要设置为false
+        // graphql相关配置
+        graphql: {
+            // 路径 建议命名为graphql
+            router: '/graphql',
+            // graphQL 路由前的拦截器
+            onPreGraphQL: async (ctx) => {
 
+            },
+            // 开发工具 graphiQL 路由前的拦截器，建议用于做权限操作(如只提供开发者使用)
+            onPreGraphiQL: function* (ctx, next) {
+            },
+        },
         // 配置 gzip 中间件的配置
         gzip: {
             threshold: 1024, // 小于 1k 的响应体不压缩
         },
-        // graphQL 路由前的拦截器
-        onPreGraphQL: function* (ctx) { // 不走
-
-        },
-        // 开发工具 graphiQL 路由前的拦截器，建议用于做权限操作(如只提供开发者使用)
-        onPreGraphiQL: function* (ctx) {
-        },
+        // 权限相关配置
         security: {
             /**
              * 接口拦截配置
@@ -77,7 +81,7 @@ module.exports = appInfo => {
             prefix: '/upload/',
             dir: path.join(appInfo.baseDir, 'upload'),
         }
-    }
+    };
 
 
     return {
@@ -86,6 +90,7 @@ module.exports = appInfo => {
         ...staticConfig,
         // 中間件配置
         middleware: middleware,
+        // middleware: middleware,
         multipart: {
             fileSize: '50mb',
             mode: 'stream',
