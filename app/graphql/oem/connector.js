@@ -46,7 +46,9 @@ class OemConnector extends TableConnectorBase {
         const config = {};
         // 给配置对象赋值
         data.forEach(item => {
-            config[item.key] = item.value;
+            const v = item.toJSON();
+            // 如果是json格式 此处做下转换
+            config[v.key] = v.value_type === 'json' ? JSON.parse(v.value) : v.value
         });
 
         return {
