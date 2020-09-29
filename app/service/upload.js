@@ -4,6 +4,8 @@ const Service = require('egg').Service;
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+const child_process = require('child_process');
+const iconv = require('iconv-lite');
 
 class UploadService extends Service {
     /**
@@ -17,7 +19,7 @@ class UploadService extends Service {
         /**
          * 文件路径
          */
-        const {uplaodBasePath, filename, filePath, name} = this.setFlieByStream(stream);
+        const {uplaodBasePath, filename, filePath, name, PDFtoPPT} = this.setFlieByStream(stream);
         /**
          * 检验md5
          */
@@ -26,7 +28,7 @@ class UploadService extends Service {
          * 如果找到md5 则直接将信息返回 不再重新生成资源
          */
         if (status === 'found') {
-            return this.createResponse(stream, data.path);
+            return await this.createResponse(stream, data.path, PDFtoPPT);
         } else {
             /**
              * 生成文件目录
@@ -40,7 +42,8 @@ class UploadService extends Service {
              * 数据插入数据库
              */
             await this.createMD5(data);
-            return this.createResponse(stream, data.path);
+
+            return await this.createResponse(stream, data.path, PDFtoPPT);
         }
     }
 
@@ -60,12 +63,52 @@ class UploadService extends Service {
     }
 
     /**
+     * 是否是转换格式
+     * @param filePath
+     * @returns {Promise}
+     * @constructor
+     */
+    async PDFtoPPT(filePath) {
+        const basePath = path.resolve('./');
+        const pythonPath = path.join(basePath, './PDFtoPPT/index.py');
+        let __path = '';
+        return new Promise((resolve, reject) => {
+            child_process.exec(`python ${pythonPath}` + ` ${path.join(basePath, filePath)}`,
+                {encoding: 'buffer'}, function (error, stdout, stderr) {
+                    if (error) {
+                        console.log('error------------')
+                        console.log(iconv.decode(error, 'cp936'))
+                    }
+                    if (stdout) {
+                        // finish:
+                        console.log('stdout------------');
+                        const info = iconv.decode(stdout, 'cp936');
+                        if (info.includes('finish:')) {
+                            __path = info.split('finish:');
+                            resolve(__path[__path.length - 1].trim().replace(basePath, '').replace(/\\/g, '\/'));
+                        }
+                    }
+                    if (stderr) {
+                        console.log('stderr-----------')
+                        console.log(iconv.decode(stderr, 'cp936'))
+                    }
+                });
+        })
+    }
+
+    /**
      * 创建响应
      * @param stream
      * @param filePath
      * @returns {*}
      */
-    createResponse(stream, filePath) {
+    async createResponse(stream, filePath, PDFtoPPT = false) {
+        if (PDFtoPPT) {
+            const path = await this.PDFtoPPT(filePath);
+            return {
+                path: path
+            }
+        }
         return {path: filePath};
     }
 
@@ -175,7 +218,8 @@ class UploadService extends Service {
             uplaodBasePath,
             filename,
             filePath,
-            name: stream.filename
+            name: stream.filename,
+            PDFtoPPT: stream.fields.PDFtoPPT
         }
     }
 }
