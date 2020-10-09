@@ -82,7 +82,12 @@ module.exports = appInfo => {
             dir: path.join(appInfo.baseDir, 'upload'),
         }
     };
-
+    // 设置超时时间 主要用于上传的状态 后续优化下 做分片上传
+    config.httpclient = {
+        httpAgent: {
+            timeout: 7200000,
+        },
+    };
 
     return {
         ...config,

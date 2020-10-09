@@ -9,11 +9,43 @@ const iconv = require('iconv-lite');
 
 class UploadService extends Service {
     /**
+     * 数据缓存
+     * @type {{}}
+     * @private
+     */
+    getCache(key) {
+        return (this.app.__cache || {})[key];
+    }
+
+    setCache(key, value) {
+        if (!this.app.__cache) {
+            this.app.__cache = {};
+        }
+        this.app.__cache[key] = value;
+    }
+
+    /**
      * 上传入口
      * @returns {Promise.<*>}
      */
     async upload() {
         const {ctx} = this;
+        /**
+         * 获取参数
+         */
+        const params = ctx.request.body;
+        console.log(this.app.__cache)
+        /**
+         * 异步上传 动态获取数据
+         */
+        if (params.path && params.type === 'async') {
+            // uploading 上传中
+            // reloading 转换中
+            // finished 完成 通知web下载
+            if (this.getCache(params.path)) return Object.assign({path: this.getCache(params.path)}, {status: 'finished'});
+            return Object.assign({path: params.path}, {status: 'uploading'});
+        }
+
         // 获取 steam
         const stream = await ctx.getFileStream();
         /**
@@ -42,7 +74,9 @@ class UploadService extends Service {
              * 数据插入数据库
              */
             await this.createMD5(data);
-
+            /**
+             * 数据返回
+             */
             return await this.createResponse(stream, data.path, PDFtoPPT);
         }
     }
@@ -85,12 +119,23 @@ class UploadService extends Service {
                         const info = iconv.decode(stdout, 'cp936');
                         if (info.includes('finish:')) {
                             __path = info.split('finish:');
-                            resolve(__path[__path.length - 1].trim().replace(basePath, '').replace(/\\/g, '\/'));
+                            resolve({
+                                basePath,
+                                path: __path[__path.length - 1].trim().replace(basePath, '').replace(/\\/g, '\/')
+                            });
                         }
                     }
                     if (stderr) {
                         console.log('stderr-----------')
-                        console.log(iconv.decode(stderr, 'cp936'))
+                        const info = iconv.decode(stdout, 'cp936');
+                        console.log(info.includes('finish:'))
+                        if (info.includes('finish:')) {
+                            __path = info.split('finish:');
+                            resolve({
+                                basePath,
+                                path: __path[__path.length - 1].trim().replace(basePath, '').replace(/\\/g, '\/')
+                            });
+                        }
                     }
                 });
         })
@@ -104,10 +149,9 @@ class UploadService extends Service {
      */
     async createResponse(stream, filePath, PDFtoPPT = false) {
         if (PDFtoPPT) {
-            const path = await this.PDFtoPPT(filePath);
-            return {
-                path: path
-            }
+            this.PDFtoPPT(filePath).then(res => {
+                this.setCache(filePath, res.path);
+            });
         }
         return {path: filePath};
     }

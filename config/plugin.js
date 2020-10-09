@@ -20,6 +20,7 @@ module.exports = {
     validate: {
         package: 'egg-validate',
     },
+    // 权限token管理
     jwt: {
         enable: true,
         package: "egg-jwt"
