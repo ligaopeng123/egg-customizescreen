@@ -92,7 +92,7 @@ module.exports = appInfo => {
         middleware: middleware,
         // middleware: middleware,
         multipart: {
-            fileSize: '50mb',
+            fileSize: '100mb',
             mode: 'stream',
             fileExtensions: ['.pdf', '.PDF']
         }
