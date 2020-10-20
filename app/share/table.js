@@ -4,6 +4,8 @@ const DataLoader = require('dataloader');
 const _ = require('lodash');
 const {Op} = require('sequelize');
 const AppUtils = require('../AppUtils');
+const fs = require('fs');
+const path = require('path');
 
 class TableConnectorBase {
     constructor(ctx, app) {
@@ -99,6 +101,46 @@ class TableConnectorBase {
     async create(rows) {
         const newRow = await this.model.create(rows);
         return await this.ceateResponse(newRow);
+    }
+
+    /**
+     * 将base64 转换成图片
+     * @param image
+     * @returns {Promise}
+     */
+    async createImageByBase64(image) {
+        return new Promise((resolve, reject) => {
+            if (image && image.startsWith('data:image')) {
+                // 相对图片路径
+                const fileFath = path.join('/upload', '/img');
+                // 文件名称
+                const fileName = `/${Date.now()}-thumbnail.png`;
+                // 绝对图片路径
+                const imgPath = path.join(this.ctx.app.baseDir, fileFath);
+                // 写入路径
+                const filePath = path.join(imgPath, fileName);
+                /**
+                 * 去掉前缀
+                 */
+                const base64 = image.replace(/^data:image\/\w+;base64,/, '');
+                //把base64码转成buffer对象，
+                const dataBuffer = new Buffer(base64, 'base64');
+                if (!fs.existsSync(imgPath)) fs.mkdirSync(imgPath);
+                fs.writeFile(filePath, dataBuffer, function (err) {
+                    resolve({
+                        code: 0,
+                        message: '上传成功',
+                        data: path.join(fileFath, fileName)
+                    });
+                });
+            } else {
+                resolve({
+                    code: 1,
+                    message: '上传失败',
+                    data: image
+                });
+            }
+        })
     }
 
     /**

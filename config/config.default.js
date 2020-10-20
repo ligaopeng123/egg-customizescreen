@@ -100,6 +100,11 @@ module.exports = appInfo => {
             fileSize: '100mb',
             mode: 'stream',
             fileExtensions: ['.pdf', '.PDF']
+        },
+        // 请求长度限制
+        bodyParser: {
+            jsonLimit: '10mb',
+            formLimit: '10mb',
         }
     }
 };

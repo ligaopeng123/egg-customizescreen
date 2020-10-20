@@ -1,5 +1,6 @@
 'use strict';
 
+
 const TableConnectorBase = require('../../share/table');
 
 /**
@@ -66,7 +67,8 @@ class TopologyConnector extends TableConnectorBase {
     async createTopology(topology) {
         const status = await this.repeatName(topology);
         if (status) return status;
-        return await this.create(topology);
+        const imgData = await this.createImageByBase64(topology.image);
+        return await this.create(Object.assign(topology, {image: imgData.data}));
     }
 
     /**
