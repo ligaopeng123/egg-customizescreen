@@ -21,25 +21,25 @@ module.exports = {
      */
     Mutation: {
         /**
-         * 创建oem
+         * 创建Topology
          * @returns {*|user}
          */
         createTopology(root, {topology}, ctx) {
-            return ctx.connector.topology.createOem(topology);
+            return ctx.connector.topology.createTopology(topology);
         },
         /**
-         * 更新oem配置数据
+         * 更新Topology配置数据
          * @returns {*|Promise}
          */
         updateTopology(root, {topology}, ctx) {
-            return ctx.connector.topology.updateOem(topology);
+            return ctx.connector.topology.updateTopology(topology);
         },
         /**
-         * 删除oem
+         * 删除Topology
          * @returns {*}
          */
         deleteTopology(root, {ID}, ctx) {
-            return ctx.connector.topology.deleteOem(ID);
+            return ctx.connector.topology.deleteTopology(ID);
         }
     },
 };

@@ -10,15 +10,19 @@ interface TopologyInterface {
 
 # 单个类型
 type Topology implements TopologyInterface {
-	id: Int!
+	id: String!
 	# 名称
 	name: String!
-	# 视图 用来过滤权限字段
-	view: String!
+	# 图片地址
+	image: String
 	# 对应的value值
 	value: String!
 	# 描述信息
 	info: String!
+	# 视图 用来过滤权限字段
+	view: String!
+	# 视图 用来过滤权限字段
+	view_id: String!
 }
 
 # 表格类型
@@ -37,24 +41,41 @@ type TopologyList {
 input TopologyCreateInput {
 	# 名称
 	name: String!
-	# 获取的key值 必须是英文字符串
-	view: String
 	# 对应的value值
 	value: String!
 	# 描述信息
-	info: String!
+	info: String
+	# 缩略图图片地址
+	image: String
+	# 视图名称
+	view: String
+	# 视图ID
+	view_id: String
 }
 
 # 更新OEM配置
 input TopologyUpdateInput {
 	# id
-	id: Int!
+	id: String!
 	# 名称
 	name: String
-	# 获取的key值 必须是英文字符串
-	view: String
 	# 对应的value值
 	value: String
 	# 描述信息
-	info: String!
+	info: String
+	# 缩略图图片地址
+	image: String
+	# 视图名称
+	view: String
+	# 视图ID
+	view_id: String
+}
+
+
+# 表格参数
+input TopologyParams {
+	# 名称查询
+	name: String
+	# 视图ID
+	view_id: String
 }

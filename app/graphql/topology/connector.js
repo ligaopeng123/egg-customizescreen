@@ -15,8 +15,8 @@ class TopologyConnector extends TableConnectorBase {
      * 初始化模型
      */
     init() {
-        this.model = this.ctx.app.model.Oem;
-        this.name = `菜单`;
+        this.model = this.ctx.app.model.Topology;
+        this.name = `拓扑`;
     }
 
     /**

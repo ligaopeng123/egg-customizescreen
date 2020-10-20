@@ -18,6 +18,8 @@ type Query {
     getLayout(key: ID!): Layout
     # 布局 -》 获取布局接口
     getLayoutList: [Layout]
+    # 布局 -》 获取拓扑表格接口
+    getTopologyList(params: TopologyParams): TopologyList
     # upload ->> 上传
     getUploadMd5(md5: ID!): Upload
 }

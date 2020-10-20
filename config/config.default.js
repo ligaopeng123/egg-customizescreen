@@ -34,7 +34,7 @@ module.exports = appInfo => {
             port: 10086,
         },
         // 是否加载开发者工具 graphql, 默认开启。路由同 router 字段。使用浏览器打开该可见。
-        graphiql: false, // onPreGraphQL要执行 graphiql需要设置为false
+        graphiql: true, // onPreGraphQL要执行 graphiql需要设置为false
         // graphql相关配置
         graphql: {
             // 路径 建议命名为graphql

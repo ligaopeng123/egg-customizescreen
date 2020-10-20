@@ -19,7 +19,7 @@ module.exports = (app) => {
         value: {
             type: TEXT, // autoIncrement: true  自增
         },
-        image:  STRING(128), // 图片路径
+        image: STRING(128), // 图片路径
         created_at: DATE,
         updated_at: DATE,
     });
