@@ -86,7 +86,9 @@ class TopologyConnector extends TableConnectorBase {
      * @returns {Promise.<*>}
      */
     async deleteTopology(ID) {
-        return await this.delete(ID);
+        const response = await this.delete(ID);
+        await this.deleteImageByFliePath(response.data.image);
+        return await response;
     }
 }
 

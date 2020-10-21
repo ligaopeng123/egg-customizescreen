@@ -144,6 +144,36 @@ class TableConnectorBase {
     }
 
     /**
+     * 图片删除
+     * @param fileFath
+     * @returns {Promise}
+     */
+    async deleteImageByFliePath(fileFath) {
+        return new Promise((resolve, reject) => {
+            const imgPath = path.join(this.ctx.app.baseDir, fileFath);
+            try {
+                /**
+                 * @des 判断文件或文件夹是否存在
+                 */
+                if (fs.existsSync(imgPath)) {
+                    fs.unlinkSync(imgPath);
+                    resolve(AppUtils.setResponse({
+                        message: `删除成功`
+                    }, 0));
+                } else {
+                    resolve(AppUtils.setResponse({
+                        message: `文件不存在`
+                    }, 1));
+                }
+            } catch (error) {
+                resolve(AppUtils.setResponse({
+                    message: error
+                }, 1));
+            }
+        });
+    }
+
+    /**
      * 新建成功后的响应
      * @param rows
      * @returns {Promise.<void>}
@@ -201,6 +231,7 @@ class TableConnectorBase {
             await delRows.destroy();
             return AppUtils.setResponse({
                 message: `${cacheRows.name}删除成功!`,
+                data: cacheRows
             }, 0);
         } else {
             return AppUtils.setResponse({
