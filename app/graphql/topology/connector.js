@@ -77,7 +77,8 @@ class TopologyConnector extends TableConnectorBase {
      * @returns {Promise.<*>}
      */
     async updateTopology(topology) {
-        return await this.update(topology);
+        const imgData = await this.createImageByBase64(topology.image);
+        return await this.update(Object.assign(topology, {image: imgData.data}));
     }
 
     /**
