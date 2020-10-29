@@ -85,6 +85,45 @@ class TableConnectorBase {
     }
 
     /**
+     * 不分页查询
+     * @param params
+     */
+    async fetchListAll(params) {
+        let _where;
+        if (params) {
+            for (let key in params) {
+                !_where ? _where = {} : null;
+                /**
+                 * id精确查询 其他模糊查询
+                 */
+                if (key === 'id') {
+                    _where[key] = params[key]
+                } else {
+                    _where[key] = {
+                        [Op.like]: `%${params[key] || ''}%`
+                    }
+                }
+            }
+        }
+        const sequelizeParams = {
+            order: [
+                ['created_at', 'DESC'], // DESC ACS
+            ],
+            // distinct: true, // 数据条数不对
+        };
+
+        if (_where) {
+            sequelizeParams.where = _where;
+        }
+        const data = await this.model.findAll(sequelizeParams);
+        return {
+            code: 0,
+            message: '查询成功!',
+            data: data
+        }
+    }
+
+    /**
      * 查询单个
      * @param id
      * @returns {Promise<V> | Promise.<V>}

@@ -1,33 +1,35 @@
 # 查询入口
 type Query {
-    # 用户 -》 用户登录
-    login(username: ID!, password: ID!): LoginUser
-    # 用户 -》 获取用户信息
-    getUser(name: ID!): User
-    # 用户 -》 获取用户表
-    getUserList(params: TableParams!): UserList
-    # 用户 -》 关联查询
-    related(name: ID!): User
-    # 组织结构表
-    getOrganizationList(params: OrganizationParams!): OrganizationList
-    # 菜单表
-    getMenuList(params: MenuParams!): MenuList
-    # oem配置
-    getOemList: OemList
-    # 布局 -》 布局接口 获取布局信息
-    getLayout(key: ID!): Layout
-    # 布局 -》 获取布局接口
-    getLayoutList: [Layout]
-    # 布局 -》 获取拓扑表格接口
-    getTopologyList(params: TopologyParams): TopologyList
-    # upload ->> 上传
-    getUploadMd5(md5: ID!): Upload
+	# 用户 -》 用户登录
+	login(username: ID!, password: ID!): LoginUser
+	# 用户 -》 获取用户信息
+	getUser(name: ID!): User
+	# 用户 -》 获取用户表
+	getUserList(params: TableParams!): UserList
+	# 用户 -》 关联查询
+	related(name: ID!): User
+	# 组织结构表
+	getOrganizationList(params: OrganizationParams!): OrganizationList
+	# 菜单表
+	getMenuList(params: MenuParams!): MenuList
+	# oem配置
+	getOemList: OemList
+	# 布局 -》 布局接口 获取布局信息
+	getLayout(key: ID!): Layout
+	# 布局 -》 获取布局接口
+	getLayoutList: [Layout]
+	# 布局 -》 获取拓扑表格接口
+	getTopologyList(params: TopologyParams): TopologyList
+	# 大屏数据
+	getScreen(params: TopologyParams): TopologyScreen
+	# upload ->> 上传
+	getUploadMd5(md5: ID!): Upload
 }
 
 
 interface Response {
-   # 状态码
-   code: Int
-   # 返回的错误或者正确对的信息
-   message: String
+	# 状态码
+	code: Int
+	# 返回的错误或者正确对的信息
+	message: String
 }

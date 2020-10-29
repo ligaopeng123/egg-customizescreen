@@ -37,6 +37,18 @@ type TopologyList {
 	message: String
 }
 
+# 大屏类型
+type TopologyScreen {
+	# 用户list表
+	data:Topology
+	# 条数
+	total: String
+	# 为0是OK的
+	code: Int
+	# 返回的错误或者正确对的信息
+	message: String
+}
+
 # 创建OEM配置
 input TopologyCreateInput {
 	# 名称
@@ -74,6 +86,8 @@ input TopologyUpdateInput {
 
 # 表格参数
 input TopologyParams {
+	# 基于id查询
+	id: String
 	# 名称查询
 	name: String
 	# 视图ID
