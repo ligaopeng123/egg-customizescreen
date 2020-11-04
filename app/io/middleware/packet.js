@@ -15,7 +15,7 @@ module.exports = (app) => {
         /**
          * 没有token信息
          */
-        console.log( ctx.packet);
+        console.log(ctx.packet);
 
         await next();
     };
