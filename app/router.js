@@ -6,7 +6,7 @@
 module.exports = app => {
     const {router, controller, io} = app;
     // 消息接收
-    router.post('/receiveEvent', controller.event.index);
+    router.post('/receive/event', controller.event.index);
     // 文件上传
     router.post('/upload', controller.upload.index);
     // 用户登录
