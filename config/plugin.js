@@ -28,5 +28,10 @@ module.exports = {
     cors: {
         enable: true,
         package: 'egg-cors',
+    },
+    // socket
+    io: {
+        enable: true,
+        package: 'egg-socket.io',
     }
 };

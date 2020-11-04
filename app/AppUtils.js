@@ -1,4 +1,4 @@
-module.exports = {
+const AppUtils = module.exports = {
     /**
      * 添加code
      * @param options
@@ -75,5 +75,53 @@ module.exports = {
             }
         }
         return uuid.join('');
+    },
+
+    /**
+     * 获取token
+     * @param app
+     */
+    getToken(ctx) {
+        const {app} = ctx;
+        // 不需要鉴权的接口
+        const csrf = app.config.security.csrf;
+
+        const token = ctx.request.header[csrf.headerName]
+            // 将第一个字母转大写
+            || AppUtils.getQueryObjectByUrl(ctx.request.url)[`${csrf.headerName.charAt(0).toUpperCase()}${csrf.headerName.slice(1)}`];
+        return token;
+    },
+    /**
+     * 超时时间获取
+     * @param app
+     * @param token
+     * @returns {boolean}  为true时则正常访问 为false时则超时
+     */
+    getTimeout(app, token) {
+        // 解析token数据
+        const {iat} = app.jwt.verify(token);
+        const loginTime = new Date().getTime() - iat * 1000;
+        const oneDay = 24 * 60 * 60 * 1000;
+        return loginTime < oneDay;
+    },
+    /**
+     * 根据URL获取传递的参数
+     * @param url
+     * @returns {{}}
+     */
+    getQueryObjectByUrl(url) {
+        const _url = url === null ? window.location.href : url;
+        const search = _url.substring(_url.lastIndexOf('?') + 1);
+        const obj = {};
+        const reg = /([^?&=]+)=([^?&=]*)/g;
+        // [^?&=]+表示：除了？、&、=之外的一到多个字符
+        // [^?&=]*表示：除了？、&、=之外的0到多个字符（任意多个）
+        search.replace(reg, function (rs, $1, $2) {
+            const name = decodeURIComponent($1);
+            const val = String(decodeURIComponent($2));
+            obj[name] = val;
+            return rs;
+        });
+        return obj;
     }
 };

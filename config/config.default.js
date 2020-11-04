@@ -20,12 +20,12 @@ module.exports = appInfo => {
     const userConfig = {
         myAppName: 'egg-customizescreen',
         sequelize: {
-            username: 'root',
-            password: 'root',
-            host: '127.0.0.1',
-            // "username": "root",
-            // "password": "cy-tech.net@123",
-            // "host": "192.168.1.87",
+            // username: 'root',
+            // password: 'root',
+            // host: '127.0.0.1',
+            "username": "nx_ylf",
+            "password": "NX_ylf2020!",
+            "host": "47.95.205.101",
             dialect: 'mysql',
             database: 'graphql', // 数据库名称
             port: '3306'
@@ -60,7 +60,7 @@ module.exports = appInfo => {
                 headerName: 'authorization', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
                 // match: '/graphql', // 只想开启针对某一路径
                 // 放行的接口路径
-                throughPath: ['/admin/login', '/admin/logout', '/admin/oem', '/upload'], // upload需要鉴权 此处先加上
+                throughPath: ['/admin/login', '/admin/logout', '/admin/oem', '/upload', '/acceptSocket'], // upload需要鉴权 此处先加上
                 secret: 'admin,login', // 配置的秘钥
                 ignore: ctx => ['/admin/login', '/admin/logout'],
                 // enable: false,
@@ -105,6 +105,18 @@ module.exports = appInfo => {
         bodyParser: {
             jsonLimit: '10mb',
             formLimit: '10mb',
+        },
+        io: {
+            namespace: {
+                '/': {
+                    connectionMiddleware: ['auth'], // 入口鉴权
+                    packetMiddleware: ['packet'], // 出口处理
+                },
+                '/event': {
+                    connectionMiddleware: ['auth'],
+                    packetMiddleware: ['packet'],
+                },
+            },
         }
     }
 };
