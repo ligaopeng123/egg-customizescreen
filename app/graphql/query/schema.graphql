@@ -22,6 +22,8 @@ type Query {
 	getTopologyList(params: TopologyParams): TopologyList
 	# 大屏数据
 	getScreen(params: TopologyParams): TopologyScreen
+	# 事件数据
+	getEventsList(params: EventParams): Events
 	# upload ->> 上传
 	getUploadMd5(md5: ID!): Upload
 }

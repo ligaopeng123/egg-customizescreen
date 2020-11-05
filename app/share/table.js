@@ -64,24 +64,51 @@ class TableConnectorBase {
     /**
      * 查询分页表格
      */
-    async fetchList(params) {
+    async fetchList(params, DESC = 'created_at') {
+        const _where = this.__getParams(params);
         // 分页查询
-        const list = await this.model.findAndCountAll({
+        const sequelizeParams = {
             order: [
-                ['created_at', 'DESC'], // DESC ACS
+                [DESC, 'DESC'], // DESC ACS
             ],
             // distinct: true, // 数据条数不对
-            where: {
-                name: {
-                    [Op.like]: `%${params.name || ''}%`
-                }
-            },
             limit: params.pageSize,
             offset: (params.current - 1) * params.pageSize,
-        });
+        };
+        if (_where) sequelizeParams.where = _where;
+        const list = await this.model.findAndCountAll(sequelizeParams);
+
         return new Promise((resolve, reject) => {
             resolve(AppUtils.setListResponse(list));
         })
+    }
+
+    /**
+     * 获取参数信息
+     * @param params
+     * @returns {*}
+     * @private
+     */
+    __getParams(params) {
+        let _where;
+        if (params) {
+            for (let key in params) {
+                if (key !== 'current' && key !== 'pageSize') {
+                    !_where ? _where = {} : null;
+                    /**
+                     * id精确查询 其他模糊查询
+                     */
+                    if (key === 'id') {
+                        _where[key] = params[key]
+                    } else {
+                        _where[key] = {
+                            [Op.like]: `%${params[key] || ''}%`
+                        }
+                    }
+                }
+            }
+        }
+        return _where;
     }
 
     /**
@@ -89,22 +116,7 @@ class TableConnectorBase {
      * @param params
      */
     async fetchListAll(params) {
-        let _where;
-        if (params) {
-            for (let key in params) {
-                !_where ? _where = {} : null;
-                /**
-                 * id精确查询 其他模糊查询
-                 */
-                if (key === 'id') {
-                    _where[key] = params[key]
-                } else {
-                    _where[key] = {
-                        [Op.like]: `%${params[key] || ''}%`
-                    }
-                }
-            }
-        }
+        const _where = this.__getParams(params);
         const sequelizeParams = {
             order: [
                 ['created_at', 'DESC'], // DESC ACS

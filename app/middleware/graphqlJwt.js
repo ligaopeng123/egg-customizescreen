@@ -1,5 +1,6 @@
 'use strict';
 
+const {getTimeout, getToken} = require('../AppUtils');
 // Notice that this path is totally changed, because this function isn't
 // directly exposed to the public, now we must still use that for the middle-
 // ware.
@@ -60,19 +61,6 @@ module.exports = (_, app) => {
             data: null
         }
     };
-    /**
-     * 超时时间获取
-     * @param app
-     * @param token
-     * @returns {boolean}  为true时则正常访问 为false时则超时
-     */
-    const getTimeout = (app, token) => {
-        // 解析token数据
-        const {iat} = app.jwt.verify(token);
-        const loginTime = new Date().getTime() - iat * 1000;
-        const oneDay = 24 * 60 * 60 * 1000;
-        return loginTime < oneDay;
-    };
 
     return async (ctx, next) => {
         // 当前请求的路径
@@ -89,7 +77,7 @@ module.exports = (_, app) => {
         /**
          * 获取token信息
          */
-        const token = ctx.request.header[csrf.headerName];
+        const token = getToken(ctx);
         // 如果token不存在 则返回 状态码为401
         if (!token) {
             setTokenInvalid(ctx);
