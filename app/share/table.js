@@ -62,21 +62,21 @@ class TableConnectorBase {
     }
 
     /**
-     * 查询分页表格
+     * 查询分页表格, order = [[DESC, 'DESC']]
      */
-    async fetchList(params, DESC = 'created_at') {
+    async fetchList({params, order, include}) {
         const _where = this.__getParams(params);
         // 分页查询
         const sequelizeParams = {
-            order: [
-                [DESC, 'DESC'], // DESC ACS
-            ],
+            order: order || [['created_at', 'DESC']],
             // distinct: true, // 数据条数不对
             limit: params.pageSize,
             offset: (params.current - 1) * params.pageSize,
         };
         if (_where) sequelizeParams.where = _where;
-        const list = await this.model.findAndCountAll(sequelizeParams);
+        if (include) sequelizeParams.include = include;
+
+        let list = await this.model.findAndCountAll(sequelizeParams);
 
         return new Promise((resolve, reject) => {
             resolve(AppUtils.setListResponse(list));

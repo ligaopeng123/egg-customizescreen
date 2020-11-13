@@ -10,7 +10,7 @@ module.exports = {
          */
         const {STRING} = Sequelize;
 
-        await queryInterface.addColumn('topologys', 'image', {
+        await queryInterface.addColumn('topologies', 'image', {
             // 菜单唯一代码 不可修改 动态生成
             type: STRING(128),
         });

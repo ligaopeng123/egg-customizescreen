@@ -1,0 +1,65 @@
+type Device {
+	id: String
+	# 名称
+	name: String
+	# 描述
+	desc: String
+	# 资产ip
+	device_ip: String
+	# 资产类型
+	device_type: String
+	# 在线状态
+	online_status: String
+	# 资产配置
+	config: String
+	# 字典数据
+	options: Dictionary
+	options_id: String
+	# 关联组织机构
+	view: Organization
+	view_id: String
+}
+
+# 表格数据格式
+type Devices {
+	code: Int
+	message: String
+	data: [Device]
+	total: String
+}
+
+# 支持参数
+input DeviceParams {
+	# 资产ip
+	device_ip: String
+	# 资产名称
+	name: String
+	# 事件类型
+	device_type: String
+	# 开始时间
+	online_status: String
+	# 分页条数
+	pageSize: Int
+	# 当前页
+	current: Int
+}
+
+input DeviceInput {
+	id: String
+	# 名称
+	name: String
+	# 描述
+	desc: String
+	# 资产ip
+	device_ip: String
+	# 资产类型
+	device_type: String
+	# 在线状态
+	online_status: String
+	# 资产配置
+	config: String
+	# 关联字典
+	options_id: String
+	# 组织机构
+	view_id: String
+}

@@ -5,8 +5,8 @@ module.exports = {
      * 查询模块
      */
     Query: {
-        login(root, params, ctx) {
-            return ctx.connector.user.login(params);
+        login(root, {params}, ctx) {
+            return ctx.connector.user.login({params});
         },
         // 查询单个用户
         getUser(root, {name}, ctx) {
@@ -31,7 +31,7 @@ module.exports = {
         //     return ctx.connector.user.fetchByIds(id);
         // },
         // 查询所有用户
-        async getUserList(root, {params}, ctx) {
+        async getUserList(root, params, ctx) {
             return ctx.connector.user.fetchList(params);
         }
     },

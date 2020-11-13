@@ -13,7 +13,7 @@ module.exports = {
          * @returns {Promise.<Promise|*>}
          */
         async getTopologyList(root, {params}, ctx) {
-            return ctx.connector.topology.fetchList(params);
+            return ctx.connector.topology.fetchList({params});
         },
         /**
          * 大屏单条数据

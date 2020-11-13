@@ -16,7 +16,7 @@ module.exports = {
          * Example:
          * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
          */
-        await queryInterface.createTable('topologys', {
+        await queryInterface.createTable('topologies', {
             id: {
                 type: UUID, primaryKey: true, defaultValue: UUIDV4  // autoIncrement: true  自增
             },

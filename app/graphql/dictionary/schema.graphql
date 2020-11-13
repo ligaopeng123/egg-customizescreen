@@ -1,0 +1,47 @@
+type Dictionary {
+	id: String
+	# 名称
+	name: String
+	# 描述
+	desc: String
+	# 属性值
+	value: String
+	# 字典类型 用于数据过滤
+	type: String
+}
+
+
+type Dictionarys {
+	code: Int
+	message: String
+	data: [Dictionary]
+	total: String
+}
+
+
+input DictionaryParams {
+	# 标识
+	id: String
+	# 字典类型
+	type: String!
+	# 资产名称
+	name: String
+	# 分页条数
+	pageSize: Int
+	# 当前页
+	current: Int
+}
+
+# 字典新增编辑参数
+input DictionaryInput{
+	id: String
+	# 名称
+	name: String
+	# 父级ID
+	desc: String
+	# 属性值
+	value: String
+	# 字典类型 用于数据过滤
+	type: String!
+}
+

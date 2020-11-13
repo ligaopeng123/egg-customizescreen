@@ -13,7 +13,7 @@ module.exports = {
          * @returns {Promise.<Promise|*>}
          */
         async getMenuList(root, {params}, ctx) {
-            return ctx.connector.menu.fetchList(params);
+            return ctx.connector.menu.fetchList({params});
         }
     },
     /**

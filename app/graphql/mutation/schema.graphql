@@ -15,10 +15,18 @@ type Mutation {
 	createOem(oem: OemCreateInput!):MutationResponse
 	updateOem(oem: OemUpdateInput!):MutationResponse
 	deleteOem(ID: ID!):MutationResponse
-	# OEM配置
+	# 拓扑配置
 	createTopology(topology: TopologyCreateInput!):MutationResponse
 	updateTopology(topology: TopologyUpdateInput!):MutationResponse
 	deleteTopology(ID: ID!):MutationResponse
+	# 字典配置
+	createDictionary(dictionary: DictionaryInput!):MutationResponse
+	updateDictionary(dictionary: DictionaryInput!):MutationResponse
+	deleteDictionary(ID: ID!):MutationResponse
+	# 资产配置
+	createDevice(device: DeviceInput!):MutationResponse
+	updateDevice(device: DeviceInput!):MutationResponse
+	deleteDevice(ID: ID!):MutationResponse
 	# upload
 	createUploadMd5(name: String, md5: String!, path: String!): Upload
 	deleteUploadMd5(md5: ID!): String

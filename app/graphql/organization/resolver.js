@@ -13,7 +13,7 @@ module.exports = {
          * @returns {Promise.<Promise|*>}
          */
         async getOrganizationList(root, {params}, ctx) {
-            return ctx.connector.organization.fetchList(params);
+            return ctx.connector.organization.fetchList({params});
         }
     },
     /**

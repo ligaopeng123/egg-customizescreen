@@ -20,10 +20,15 @@ type Query {
 	getLayoutList: [Layout]
 	# 布局 -》 获取拓扑表格接口
 	getTopologyList(params: TopologyParams): TopologyList
-	# 大屏数据
+	# 大屏 -》 数据
 	getScreen(params: TopologyParams): TopologyScreen
-	# 事件数据
+	# 事件 -》 数据
 	getEventsList(params: EventParams): Events
+	# 字典 -》 数据
+	getDictionaryList(params: DictionaryParams!): Dictionarys
+	getDictionaryLists(params: DictionaryParams!): Dictionarys
+	# 资产 -》 数据
+	getDeviceList(params: DeviceParams!): Devices
 	# upload ->> 上传
 	getUploadMd5(md5: ID!): Upload
 }

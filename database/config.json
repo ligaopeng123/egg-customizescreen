@@ -13,6 +13,13 @@
     "host": "192.168.1.87",
     "dialect": "mysql"
   },
+  "box": {
+    "username": "nx_ylf",
+    "password": "NX_ylf2020!",
+    "host": "47.95.205.101",
+    "database": "graphql",
+    "dialect": "mysql"
+  },
   "test": {
     "username": "root",
     "password": "cy-tech.net@123",

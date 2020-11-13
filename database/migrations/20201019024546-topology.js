@@ -10,12 +10,12 @@ module.exports = {
          */
         const {STRING, DATE, TEXT, UUID, UUIDV4} = Sequelize;
 
-        await queryInterface.addColumn('topologys', 'view', {
+        await queryInterface.addColumn('topologies', 'view', {
             // 菜单唯一代码 不可修改 动态生成
             type: STRING(32),
         });
 
-        await queryInterface.addColumn('topologys', 'view_id', {
+        await queryInterface.addColumn('topologies', 'view_id', {
             // 菜单唯一代码 不可修改 动态生成
             type: STRING(64),
         });
