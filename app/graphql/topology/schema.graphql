@@ -20,7 +20,7 @@ type Topology implements TopologyInterface {
 	# 描述信息
 	info: String!
 	# 视图 用来过滤权限字段
-	view: String!
+	view: Organization
 	# 视图 用来过滤权限字段
 	view_id: String!
 }

@@ -11,7 +11,6 @@ module.exports = (app) => {
         name: {
             type: STRING(64), // autoIncrement: true  自增
         },
-        view: STRING(32),
         view_id: STRING(64),
         info: {
             type: STRING(128), // autoIncrement: true  自增
@@ -29,5 +28,16 @@ module.exports = (app) => {
     // tableName: 'Employees', // 定义数据库表明
     // timestamps: false, // 是否启用时间戳
     // }
+
+    // 添加关联关系 一对多 一字典信息可以对应多个目标
+    Topology.associate = () => {
+        // 关联组织结构
+        app.model.Topology.belongsTo(app.model.Organization, {
+            foreignKey: 'view_id',
+            as: 'view',
+            targetKey: 'organization_code', // 关联目标字段
+            allowNull: false // 非前置 字段可为空;
+        });
+    }
     return Topology;
 };

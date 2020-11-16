@@ -30,6 +30,8 @@ type Devices {
 
 # 支持参数
 input DeviceParams {
+	# 组织机构
+	view_id: String
 	# 资产ip
 	device_ip: String
 	# 资产名称

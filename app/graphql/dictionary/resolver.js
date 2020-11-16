@@ -6,7 +6,7 @@ module.exports = {
         getDictionaryList(root, {params}, ctx) {
             return ctx.connector.dictionary.fetchList({params});
         },
-        getDictionaryLists(root, {params}, ctx) {
+        getDictionaryLists(root, params, ctx) {
             return ctx.connector.dictionary.fetchListAll(params);
         }
     },

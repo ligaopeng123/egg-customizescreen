@@ -26,12 +26,17 @@ class TopologyConnector extends TableConnectorBase {
      * @returns {Promise.<{code: number, message: string, data: *}>}
      */
     async fetchList(params) {
-        const Topology = await this.fetchListAll(params);
+        const Topology = await this.fetchListAll({
+            params, include: [{
+                model: this.ctx.app.model.Organization,
+                as: 'view',
+            }]
+        });
         return Topology
     }
 
     async fetchScreen(params) {
-        const Topology = await this.fetchListAll(params);
+        const Topology = await this.fetchListAll({params});
         return {
             code: 0,
             message: '查询成功!',
