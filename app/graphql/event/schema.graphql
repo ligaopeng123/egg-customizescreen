@@ -1,39 +1,40 @@
 type Event {
-  id: Int
-  # 资产ip
-  deviceIp: String
-  # 资产名称
-  deviceName: String
-  # 资产类型
-  eventType: String
-  # 事件内容
-  content: String
-  # 创建时间
-  createTime: String
+	id: Int
+	# 资产ip
+	deviceIp: String
+	# 资产名称
+	deviceName: String
+	# 资产类型
+	eventType: String
+	# 事件内容
+	content: String
+	# 创建时间
+	createTime: Date
 }
 
 type Events {
-  code: Int
-  message: String
-  data: [Event]
-  total: String
+	code: Int
+	message: String
+	data: [Event]
+	total: String
 }
 
-
 input EventParams {
-  # 资产ip
-  deviceIp: String
-  # 资产名称
-  deviceName: String
-  # 事件类型
-  eventType: String
-  # 开始时间
-  startTime: String
-  # 结束时间
-  endTime: String
-  # 分页条数
-  pageSize: Int
-  # 当前页
-  current: Int
+	# 资产ip
+	deviceIp: String
+	# 资产名称
+	deviceName: String
+	# 事件类型
+	eventType: String
+	# 开始时间
+	startTime: String
+	# 结束时间
+	endTime: String
+	# 时间范围查询
+	createTime: [Date]
+	# 分页条数
+	pageSize: Int
+	# 当前页
+	current: Int
 }
 

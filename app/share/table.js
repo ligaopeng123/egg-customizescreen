@@ -64,7 +64,7 @@ class TableConnectorBase {
     /**
      * 查询分页表格, order = [[DESC, 'DESC']]
      */
-    async fetchList({params, order, include}) {
+    async fetchList({params, order, include, attributes}) {
         const _where = this.__getParams(params);
         // 分页查询
         const sequelizeParams = {
@@ -75,6 +75,7 @@ class TableConnectorBase {
         };
         if (_where) sequelizeParams.where = _where;
         if (include) sequelizeParams.include = include;
+        if (attributes) sequelizeParams.attributes = attributes;
 
         let list = await this.model.findAndCountAll(sequelizeParams);
 
@@ -100,9 +101,18 @@ class TableConnectorBase {
                      */
                     if (key === 'id') {
                         _where[key] = params[key]
-                    } else {
-                        _where[key] = {
-                            [Op.like]: `%${params[key] || ''}%`
+                    }
+                    // 模糊查询
+                    else {
+                        // 范围查询
+                        if (Array.isArray(params[key])) {
+                            _where[key] = {
+                                [Op.between]: params[key]
+                            }
+                        } else {
+                            _where[key] = {
+                                [Op.like]: `%${params[key] || ''}%`
+                            }
                         }
                     }
                 }

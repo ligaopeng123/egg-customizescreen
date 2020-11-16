@@ -6,7 +6,8 @@ module.exports = {
         getEventsList(root, {params}, ctx) {
             return ctx.connector.event.fetchList({
                 params,
-                order: [['createTime', 'DESC']]
+                order: [['createTime', 'DESC']],
+                attributes: ['id', 'deviceIp', 'deviceName', 'eventType', 'createTime']
             });
         }
     }
