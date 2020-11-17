@@ -12,6 +12,8 @@ type Device {
 	online_status: String
 	# 资产配置
 	config: String
+	# 采集状态
+	collection: String
 	# 字典数据
 	options: Dictionary
 	options_id: String
@@ -64,4 +66,6 @@ input DeviceInput {
 	options_id: String
 	# 组织机构
 	view_id: String
+	# 采集状态
+	collection: String
 }

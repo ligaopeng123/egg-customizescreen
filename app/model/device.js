@@ -5,6 +5,16 @@
 const Dictionary = require('./dictionary');
 module.exports = (app) => {
     const {STRING, UUID, UUIDV4, DATE, TEXT} = app.Sequelize;
+    /**
+     * 采集状态
+     */
+    const COLLECTION = {
+        'notCollected': '未开始', // 0  未点击开启
+        'startCollecting': '开始采集', // 1  // 点击开始
+        'collecting': '采集中', // 3 采集中 不执行采集任务
+        'collected': '采集关闭' // 2 关闭采集
+    }
+
     const Device = app.model.define('device', {
         // id属性
         id: {
@@ -24,11 +34,17 @@ module.exports = (app) => {
         online_status: STRING(8),
         // 依赖配置
         config: TEXT,
+        // 采集状态
+        collection: {
+            type: STRING(16),
+            defaultValue: 'notCollected'
+        },
         // 定制参数
         options_id: STRING(64),
         created_at: DATE,
         updated_at: DATE,
     });
+
     // 添加关联关系 一对多 一字典信息可以对应多个目标
     Device.associate = () => {
         // 关联字典
