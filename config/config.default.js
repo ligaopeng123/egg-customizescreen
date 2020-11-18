@@ -88,7 +88,6 @@ module.exports = appInfo => {
             timeout: 7200000,
         },
     };
-
     return {
         ...config,
         ...userConfig,
