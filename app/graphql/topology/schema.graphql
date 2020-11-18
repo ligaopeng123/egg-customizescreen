@@ -5,7 +5,7 @@ interface TopologyInterface {
 	# 对应的value值
 	value: String!
 	# 描述信息
-	info: String!
+	info: String
 }
 
 # 单个类型
@@ -18,7 +18,7 @@ type Topology implements TopologyInterface {
 	# 对应的value值
 	value: String!
 	# 描述信息
-	info: String!
+	info: String
 	# 视图 用来过滤权限字段
 	view: Organization
 	# 视图 用来过滤权限字段
