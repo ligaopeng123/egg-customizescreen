@@ -8,6 +8,8 @@ type Dictionary {
 	value: String
 	# 字典类型 用于数据过滤
 	type: String
+	# 字典小类
+	accurate_type: String
 }
 
 
@@ -24,6 +26,8 @@ input DictionaryParams {
 	id: String
 	# 字典类型
 	type: String!
+	# 字典小类
+	accurate_type: String
 	# 资产名称
 	name: String
 	# 分页条数
@@ -43,5 +47,7 @@ input DictionaryInput{
 	value: String
 	# 字典类型 用于数据过滤
 	type: String!
+	# 字典小类
+	accurate_type: String
 }
 

@@ -17,6 +17,8 @@ module.exports = (app) => {
         value: TEXT,
         // 类型
         type: STRING(32),
+        // 小类
+        accurate_type: STRING(32),
         created_at: DATE,
         updated_at: DATE,
     });
