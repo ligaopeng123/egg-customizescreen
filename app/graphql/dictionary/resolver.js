@@ -4,7 +4,7 @@ module.exports = {
     Query: {
         // 查询事件表信息
         getDictionaryList(root, {params}, ctx) {
-            return ctx.connector.dictionary.fetchList({params});
+            return ctx.connector.dictionary.fetchDictionaryList(params);
         },
         getDictionaryLists(root, params, ctx) {
             return ctx.connector.dictionary.fetchListAll(params);

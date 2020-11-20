@@ -24,6 +24,8 @@ type Query {
 	getScreen(params: TopologyParams): TopologyScreen
 	# 事件 -》 数据
 	getEventsList(params: EventParams): Events
+	# 事件 -》 不分页数据
+	getEventsLists(params: EventParams): Events
 	# 字典 -》 数据
 	getDictionaryList(params: DictionaryParams!): Dictionarys
 	getDictionaryLists(params: DictionaryParams!): Dictionarys

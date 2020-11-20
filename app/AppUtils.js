@@ -1,3 +1,5 @@
+const Excel = require('exceljs');
+
 const AppUtils = module.exports = {
     /**
      * 添加code
@@ -123,5 +125,40 @@ const AppUtils = module.exports = {
             return rs;
         });
         return obj;
-    }
+    },
+    /**
+     * 创建excel
+     * @param options  默认配置 前端传入 包含excle的名称之类
+     * {
+     *
+     * }
+     * @param data 表数据
+     * @param columns 表结构
+     */
+    async createExcel({ctx, options, data, columns}) {
+        /**
+         * sheet页签数据 数组形式
+         */
+        const {sheet} = options;
+
+        const workbook = new Excel.Workbook();
+        // 作者
+        workbook.creator = 'admin';
+        // 最后修改
+        workbook.lastModifiedBy = 'admin';
+        // 生成时间
+        workbook.created = new Date();
+        // 修改时间
+        workbook.modified = new Date();
+        // 添加excel页签
+        const itemSheet = workbook.addWorksheet(sheet);
+        itemSheet.columns = options.columns || columns;
+        // [
+        //     {header: '创建时间', key: 'create_time', width: 15},
+        // ];
+        // 添加数据
+        itemSheet.addRows(data);
+        // 返回数据流
+        return await workbook.xlsx.writeBuffer();
+    },
 };

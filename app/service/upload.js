@@ -34,7 +34,6 @@ class UploadService extends Service {
          * 获取参数
          */
         const params = ctx.request.body;
-        console.log(this.app.__cache)
         /**
          * 异步上传 动态获取数据
          */

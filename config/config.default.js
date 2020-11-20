@@ -2,7 +2,6 @@
 
 'use strict';
 const path = require('path');
-const graphqlJwt = require('../app/middleware/graphqlJwt');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -94,7 +93,6 @@ module.exports = appInfo => {
         ...staticConfig,
         // 中間件配置
         middleware: middleware,
-        // middleware: middleware,
         multipart: {
             fileSize: '100mb',
             mode: 'stream',

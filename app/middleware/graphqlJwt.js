@@ -61,7 +61,6 @@ module.exports = (_, app) => {
             data: null
         }
     };
-
     return async (ctx, next) => {
         // 当前请求的路径
         const url = ctx.url;

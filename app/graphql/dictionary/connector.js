@@ -42,6 +42,16 @@ class DictionaryConnector extends TableConnectorBase {
     async updateDictionary(dictionary) {
         return await this.update(dictionary);
     }
+
+    /**
+     *
+     * @param params
+     * @returns {Promise}
+     */
+    async fetchDictionaryList(params) {
+        AppUtils.createExcel(this.ctx);
+        return this.fetchList({params});
+    }
 }
 
 module.exports = DictionaryConnector;

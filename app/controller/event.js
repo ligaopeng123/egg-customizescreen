@@ -5,7 +5,6 @@ const Controller = require('egg').Controller;
 class ReceiveEventSocketController extends Controller {
     async index() {
         const {ctx, app} = this;
-        console.log(ctx.request.body)
         /**
          * 事件发送的信息 使用广播形式发送
          */

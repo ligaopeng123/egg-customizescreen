@@ -125,17 +125,15 @@ class TableConnectorBase {
      * 不分页查询
      * @param params
      */
-    async fetchListAll({params, include, order}) {
+    async fetchListAll({params, include, order, attributes}) {
         const _where = this.__getParams(params);
         const sequelizeParams = {
-            order: [
-                ['created_at', 'DESC'], // DESC ACS
-            ],
+            order: order || [['created_at', 'DESC']],
             // distinct: true, // 数据条数不对
         };
-
         if (_where) sequelizeParams.where = _where;
         if (include) sequelizeParams.include = include;
+        if (attributes) sequelizeParams.attributes = attributes;
         const data = await this.model.findAll(sequelizeParams);
         return {
             code: 0,

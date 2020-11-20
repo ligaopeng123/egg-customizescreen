@@ -9,6 +9,8 @@ module.exports = app => {
     router.post('/receive/event', controller.event.index);
     // 文件上传
     router.post('/upload', controller.upload.index);
+    // 文件下载
+    router.post('/download', controller.download.index);
     // 用户登录
     router.post('/admin/login', controller.login.index);
     // 菜单信息
