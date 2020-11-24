@@ -32,7 +32,7 @@ type Query {
 	getDictionaryLists(params: DictionaryParams!): Dictionarys
 	# 资产 -》 数据
 	getDeviceList(params: DeviceParams!): Devices
-	# upload ->> 上传
+	# upload -》 上传
 	getUploadMd5(md5: ID!): Upload
 }
 
