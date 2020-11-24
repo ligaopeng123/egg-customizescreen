@@ -28,6 +28,7 @@ type Query {
 	getEventsLists(params: EventParams): Events
 	# 字典 -》 数据
 	getDictionaryList(params: DictionaryParams!): Dictionarys
+	# 字典 -》 不分页数据
 	getDictionaryLists(params: DictionaryParams!): Dictionarys
 	# 资产 -》 数据
 	getDeviceList(params: DeviceParams!): Devices
