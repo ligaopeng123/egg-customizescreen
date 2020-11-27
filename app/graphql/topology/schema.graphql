@@ -40,7 +40,7 @@ type TopologyList {
 # 大屏类型
 type TopologyScreen {
 	# 用户list表
-	data:Topology
+	data:[Topology]
 	# 条数
 	total: String
 	# 为0是OK的

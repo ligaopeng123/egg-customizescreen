@@ -35,13 +35,15 @@ class TopologyConnector extends TableConnectorBase {
         return Topology
     }
 
+    /**
+     * 大屏取数函数
+     * @param params
+     * @returns {Promise.<{code: number, message: string, data: Array}>}
+     */
     async fetchScreen(params) {
         const Topology = await this.fetchListAll({params});
-        return {
-            code: 0,
-            message: '查询成功!',
-            data: Topology.data[0]
-        }
+        const data = Topology.data[0];
+        return Object.assign({}, Topology, {message: data ? '查询成功!' : '配置已删除，请重新配置!', code: data ? 0 : 1});
     }
 
     /**
