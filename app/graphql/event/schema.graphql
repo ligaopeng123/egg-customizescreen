@@ -1,5 +1,6 @@
 type Event {
-	id: Int
+    # 事件id
+	id: String
 	# 资产ip
 	deviceIp: String
 	# 资产名称
